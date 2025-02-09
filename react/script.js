@@ -23,7 +23,7 @@ const Filters = ({onClickAll, all, onClick, filters}) =>
           type="checkbox"
           checked={all}
         />
-        <label htmlFor="all">All</label>
+        <label htmlFor="all">Aall</label>
       </li>
        {filters.map(
         (filter, i)=>

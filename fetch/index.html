@@ -1,23 +1,11 @@
 <!DOCTYPE html>
 <html>
 <body>
-<h1>JavaScript Fetch API</h1>
+<h1>JS Fetch API</h1>
 <h2>The fetch() Method</h2>
 <div id="demo1">Fetch a file to change this text.</div>
 <div id="demo2">Fetch a file to change this text.</div>
 <div id="demo3">Fetch a file to change this text.</div>
-
-<script>
-getText("text1.txt","demo1");
-getText("text2.txt","demo2");
-getText("text3.txt","demo3");
-
-async function getText(file,id) {
-  let x = await fetch(file);
-  let y = await x.text();
-  document.getElementById(id).innerHTML = y;
-}
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
