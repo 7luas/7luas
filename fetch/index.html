@@ -55,7 +55,7 @@
         let activeTags = new Set();
         let showFeaturedOnly = false;
         
-        fetch('projects.json')
+        fetch('data.json')
             .then(response => response.json())
             .then(data => {
                 projects = data.projects;
