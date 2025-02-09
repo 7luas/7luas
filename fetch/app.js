@@ -89,7 +89,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
 
+      // Control the visibility of the Match All checkbox
+      function updateMatchAllVisibility() {
+        if (showAllBtn.classList.contains('active')) {
+          matchAllCheckbox.style.display = 'none'; // Hide Match All checkbox when Show All is selected
+        } else {
+          matchAllCheckbox.style.display = 'inline-block'; // Show Match All checkbox when Show All is not selected
+        }
+      }
+
       // Initial display with all projects visible
       displayProjects();
+      updateMatchAllVisibility();
     });
 });
