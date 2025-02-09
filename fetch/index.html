@@ -39,6 +39,17 @@
       background-color: #007BFF;
       color: #fff;
     }
+    /* New style for the Featured button when active */
+    #showFeaturedBtn.active {
+      background-color: #ff9800;
+      color: #fff;
+      font-weight: bold;
+    }
+    /* Ensure the tag buttons inside #tags are inline */
+    #tags {
+      display: flex;
+      gap: 10px;
+    }
     .project-count {
       text-align: center;
       margin-top: 20px;
@@ -78,7 +89,7 @@
 </head>
 <body>
   <header>
-    <h1>Project Listing <span style="font-size: 0.8em; color: #bbb;">(Version 1.1)</span></h1>
+    <h1>Project Listing <span style="font-size: 0.8em; color: #bbb;">(Version 1.2)</span></h1>
   </header>
 
   <div class="filters">
@@ -109,7 +120,7 @@
           // Extract all unique tags from the data
           const tags = [...new Set(projects.flatMap(project => project.tags))];
 
-          // Dynamically generate filter buttons based on tags
+          // Dynamically generate the filter buttons based on the tags in the JSON
           tags.forEach(tag => {
             const button = document.createElement('div');
             button.classList.add('filter-btn');
@@ -117,6 +128,7 @@
             button.textContent = tag;
             tagsContainer.appendChild(button);
 
+            // Add event listener to toggle tag selection
             button.addEventListener('click', function () {
               toggleTag(tag);
               this.classList.toggle('active');
@@ -160,6 +172,15 @@
             } else {
               selectedTags.push(tag);
             }
+            // If all tags are selected, reset the selection to show all
+            if (selectedTags.length === tags.length) {
+              selectedTags = [];
+              // Remove active class from all tag buttons
+              tagsContainer.querySelectorAll('.filter-btn').forEach(button => button.classList.remove('active'));
+              showAllBtn.classList.add('active');
+            } else {
+              showAllBtn.classList.remove('active');
+            }
             showFeaturedOnly = false;
             displayProjects();
           }
@@ -173,9 +194,12 @@
           });
 
           showFeaturedBtn.addEventListener('click', function () {
+            showFeaturedOnly = !showFeaturedOnly;
+            // Toggle active appearance for Featured button
+            this.classList.toggle('active', showFeaturedOnly);
             selectedTags = [];
-            showFeaturedOnly = true;
             tagsContainer.querySelectorAll('.filter-btn').forEach(button => button.classList.remove('active'));
+            updateShowAllButton();
             displayProjects();
           });
 
