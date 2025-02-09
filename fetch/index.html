@@ -3,8 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Project Filter </title>
+  <title>Project Filter</title>
   <style>
+    /* Overall font size reduced by 20% */
+    html {
+      font-size: 80%;
+    }
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -34,12 +38,13 @@
       cursor: pointer;
       transition: background-color 0.3s ease;
       white-space: nowrap;
+      font-size: inherit; /* Inherit from the parent */
     }
     .filter-btn.active {
       background-color: #007BFF;
       color: #fff;
     }
-    /* New style for the Featured button when active */
+    /* Featured button active style */
     #showFeaturedBtn.active {
       background-color: #ff9800;
       color: #fff;
@@ -68,6 +73,10 @@
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
+    /* Light orange background for featured projects */
+    .project-item.featured {
+      background-color: #ffe0b2;
+    }
     .project-title {
       font-size: 18px;
       font-weight: bold;
@@ -80,16 +89,20 @@
       font-style: italic;
       color: #555;
     }
+    /* Mobile adjustments */
     @media (max-width: 768px) {
       #project-list {
         grid-template-columns: 1fr;
+      }
+      .filters .filter-btn {
+        font-size: 1rem; /* Ensure buttons match the description paragraphs */
       }
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Project Listing <span style="font-size: 0.8em; color: #bbb;">(Version 1.4)</span></h1>
+    <h1>Project Listing <span style="font-size: 0.8em; color: #bbb;">(Version 1.5)</span></h1>
   </header>
 
   <div class="filters">
@@ -152,7 +165,7 @@
             filteredProjects = [...featuredProjects, ...nonFeaturedProjects];
 
             projectList.innerHTML = filteredProjects.map(project => `
-              <div class="project-item" ${project.featured ? 'style="background-color: #ffe0b2;"' : ''}>
+              <div class="project-item ${project.featured ? 'featured' : ''}">
                 <h2 class="project-title">${project.name} <span>(${project.additionalImages.length} images)</span></h2>
                 <p class="project-description">${project.description}</p>
                 <p class="project-tags">${project.tags.join(', ')}</p>
@@ -189,7 +202,7 @@
             showFeaturedOnly = false;
             tagsContainer.querySelectorAll('.filter-btn').forEach(button => button.classList.remove('active'));
             showAllBtn.classList.add('active');
-            showFeaturedBtn.classList.remove('active'); // Revert Featured button to inactive
+            showFeaturedBtn.classList.remove('active');
             displayProjects();
             updateShowAllButton();
           });
