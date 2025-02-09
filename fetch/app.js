@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const showAllBtn = document.getElementById('showAllBtn');
       const tagsContainer = document.getElementById('tags');
       const projectCount = document.getElementById('projectCount');
-      const matchAllCheckbox = document.getElementById('matchAllCheckbox');
+      const matchAllCheckbox = document.getElementById('matchAllCheckbox'); // This might be null if hidden
 
       // Extract all unique tags from the data
       const tags = [...new Set(projects.flatMap(project => project.tags))];
@@ -97,11 +97,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
 
-      // Event listener for Match All checkbox
-      matchAllCheckbox.addEventListener('change', function() {
-        isMatchAll = this.checked;
-        displayProjects();
-      });
+      // Only add event listener to the checkbox if it's visible
+      if (matchAllCheckbox) {
+        matchAllCheckbox.addEventListener('change', function() {
+          isMatchAll = this.checked;
+          displayProjects();
+        });
+      }
 
       // Initial display with all projects visible
       displayProjects();
