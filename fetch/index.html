@@ -3,25 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Project Listing</title>
+  <title>Project Gallery</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <h1>Project Gallery</h1>
 
-  <!-- Tag Filters -->
-  <div id="tag-filters">
-    <!-- Show All Button -->
-    <div class="tag" id="show-all" onclick="filterByAll()">Show All</div>
+  <!-- Filter Section -->
+  <div id="filters">
+    <div>
+      <button id="showAllBtn" class="filter-btn active">Show All</button>
+    </div>
+    <div id="tags"></div> <!-- Tags will be generated dynamically here -->
+    <div>
+      <input type="checkbox" id="matchAll" /> <label for="matchAll">Match all selected tags</label>
+    </div>
   </div>
 
-  <!-- Filter options for AND operation -->
-  <label for="and-filter">Match all selected tags (AND)</label>
-  <input type="checkbox" id="and-filter" onchange="toggleAndFilter()">
+  <div id="projectCount">0 projects match your selection</div>
 
-  <!-- Projects List -->
-  <div id="projects-list"></div>
+  <!-- Project Listing -->
+  <div id="project-list" class="grid"></div>
 
+  <script src="data.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

@@ -1,140 +1,93 @@
-// app.js
+document.addEventListener('DOMContentLoaded', function() {
+  fetch('data.json') // Fetch the JSON file
+    .then(response => response.json())
+    .then(data => {
+      const projects = data.projects;
+      let selectedTags = [];
+      let isMatchAll = false;
 
-let allProjects = [];
-let filteredProjects = [];
-let andFilter = false;
+      const projectList = document.getElementById('project-list');
+      const showAllBtn = document.getElementById('showAllBtn');
+      const matchAllCheckbox = document.getElementById('matchAll');
+      const tagsContainer = document.getElementById('tags');
+      const projectCount = document.getElementById('projectCount');
 
-// Fetch the data from the JSON file
-fetch('data.json')
-  .then(response => response.json())
-  .then(data => {
-    allProjects = data.projects; // Store the original projects data
-    filteredProjects = [...allProjects]; // Initially show all projects
-    renderTagFilters();
-    renderProjects(filteredProjects);
-  })
-  .catch(error => {
-    console.error('Error fetching data:', error);
-  });
+      // Extract all unique tags from the data
+      const tags = [...new Set(projects.flatMap(project => project.tags))];
 
-// Render the tags filter
-function renderTagFilters() {
-  const tags = new Set();
-  allProjects.forEach(project => {
-    project.tags.forEach(tag => {
-      tags.add(tag);
-    });
-  });
+      // Dynamically generate the filter buttons based on the tags in the JSON
+      tags.forEach(tag => {
+        const button = document.createElement('button');
+        button.classList.add('filter-btn');
+        button.dataset.tag = tag;
+        button.textContent = tag;
+        tagsContainer.appendChild(button);
 
-  const tagFiltersContainer = document.getElementById('tag-filters');
-  tags.forEach(tag => {
-    const tagButton = document.createElement('div');
-    tagButton.classList.add('tag');
-    tagButton.textContent = tag;
-    tagButton.onclick = () => toggleTagFilter(tag);
-    tagFiltersContainer.appendChild(tagButton);
-  });
-}
+        // Add event listener to toggle tag selection
+        button.addEventListener('click', function() {
+          toggleTag(tag);
+          this.classList.toggle('active');
+          updateShowAllButton();
+        });
+      });
 
-// Filter projects by tag
-function toggleTagFilter(tag) {
-  const tagButtons = document.querySelectorAll('.tag');
-  tagButtons.forEach(button => {
-    if (button.textContent === tag) {
-      button.classList.toggle('active');
-    }
-  });
+      // Show projects
+      function displayProjects() {
+        const filteredProjects = projects.filter(project => {
+          const hasTags = selectedTags.every(tag => project.tags.includes(tag));
+          return selectedTags.length === 0 || (isMatchAll ? hasTags : project.tags.some(tag => selectedTags.includes(tag)));
+        });
 
-  if (isAnyTagActive()) {
-    filteredProjects = allProjects.filter(project => {
-      return project.tags.some(tag => isTagActive(tag));
-    });
-  } else {
-    filteredProjects = [...allProjects];
-  }
+        projectList.innerHTML = filteredProjects.map(project => `
+          <div class="project-item">
+            <h2 class="project-title">${project.name} <span>(${project.additionalImages.length} images)</span></h2>
+            <p class="project-description">${project.description}</p>
+          </div>
+        `).join('');
 
-  updateShowAllButtonState();
-  renderProjects(filteredProjects);
-}
-
-// Show all projects
-function filterByAll() {
-  const tagButtons = document.querySelectorAll('.tag');
-  tagButtons.forEach(button => {
-    button.classList.remove('active');
-  });
-
-  filteredProjects = [...allProjects];
-  updateShowAllButtonState();
-  renderProjects(filteredProjects);
-}
-
-// Update the Show All button state
-function updateShowAllButtonState() {
-  const showAllButton = document.getElementById('show-all');
-  const anyTagsActive = isAnyTagActive();
-
-  if (anyTagsActive) {
-    showAllButton.classList.remove('active');
-  } else {
-    showAllButton.classList.add('active');
-  }
-}
-
-// Check if any tag is active
-function isAnyTagActive() {
-  return document.querySelectorAll('.tag.active').length > 0;
-}
-
-// Check if a specific tag is active
-function isTagActive(tag) {
-  const tagButton = [...document.querySelectorAll('.tag')].find(button => button.textContent === tag);
-  return tagButton && tagButton.classList.contains('active');
-}
-
-// Toggle the AND filter
-function toggleAndFilter() {
-  andFilter = document.getElementById('and-filter').checked;
-  applyFilters();
-}
-
-// Apply filters with or without AND operation
-function applyFilters() {
-  const selectedTags = [...document.querySelectorAll('.tag.active')].map(button => button.textContent);
-
-  if (selectedTags.length === 0) {
-    filteredProjects = [...allProjects];
-  } else {
-    filteredProjects = allProjects.filter(project => {
-      if (andFilter) {
-        return selectedTags.every(tag => project.tags.includes(tag));
-      } else {
-        return project.tags.some(tag => selectedTags.includes(tag));
+        projectCount.textContent = `${filteredProjects.length} project${filteredProjects.length !== 1 ? 's' : ''} match your selection`;
       }
+
+      // Toggle selected tag
+      function toggleTag(tag) {
+        if (selectedTags.includes(tag)) {
+          selectedTags = selectedTags.filter(t => t !== tag);
+        } else {
+          selectedTags.push(tag);
+        }
+        displayProjects();
+      }
+
+      // Event listener for Show All button
+      showAllBtn.addEventListener('click', function() {
+        selectedTags = [];
+        tagsContainer.querySelectorAll('.filter-btn').forEach(button => button.classList.remove('active'));
+        displayProjects();
+        updateShowAllButton();
+      });
+
+      // Event listener for Match All checkbox
+      matchAllCheckbox.addEventListener('change', function() {
+        isMatchAll = this.checked;
+        displayProjects();
+      });
+
+      // Update Show All button state
+      function updateShowAllButton() {
+        if (selectedTags.length === 0) {
+          showAllBtn.classList.add('active');
+        } else {
+          showAllBtn.classList.remove('active');
+        }
+
+        // If all tags are selected, Show All should be active and all other tags unselected
+        if (selectedTags.length === tags.length) {
+          showAllBtn.classList.add('active');
+          tagsContainer.querySelectorAll('.filter-btn').forEach(button => button.classList.remove('active'));
+        }
+      }
+
+      // Initial display with all projects visible
+      displayProjects();
     });
-  }
-
-  renderProjects(filteredProjects);
-}
-
-// Render the filtered projects
-function renderProjects(projects) {
-  const projectsList = document.getElementById('projects-list');
-  projectsList.innerHTML = ''; // Clear the existing projects
-
-  projects.forEach(project => {
-    const projectElement = document.createElement('div');
-    projectElement.classList.add('project');
-
-    // Add the project details and tags
-    projectElement.innerHTML = `
-      <h3>${project.name}</h3>
-      ${project.description}
-      <div class="tags">
-        ${project.tags.map(tag => `<div class="tag">${tag}</div>`).join('')}
-      </div>
-    `;
-
-    projectsList.appendChild(projectElement);
-  });
-}
+});

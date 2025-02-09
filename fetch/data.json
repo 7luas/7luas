@@ -1,24 +1,44 @@
 {
   "projects": [
-    { "name": "Project 1", "tags": ["illustration"], "description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque euismod eros eget nulla dictum, et tincidunt lorem fermentum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nam venenatis felis neque, ut cursus nulla congue ac.</p>", "mainImage": "images/img1.jpg", "additionalImages": [{"path": "images/img2.jpg", "caption": "Additional image 1"}] },
-    { "name": "Project 2", "tags": ["motion design"], "description": "<p>Nullam ultricies dui ac mauris tincidunt, vel facilisis lorem sollicitudin. Phasellus malesuada, elit sit amet suscipit fermentum, tortor orci fermentum nunc, vitae cursus nisi lorem vel nulla. Morbi id magna et nunc consequat malesuada.</p>", "mainImage": "images/img2.jpg", "additionalImages": [{"path": "images/img3.jpg", "caption": "Additional image 1"}] },
-    { "name": "Project 3", "tags": ["animation"], "description": "<p>Suspendisse potenti. Nam ac eros id felis malesuada dapibus. Fusce vitae justo sed enim aliquam luctus. Aliquam erat volutpat. In condimentum bibendum felis, a tempor dui rhoncus eu. Sed at pharetra eros, non venenatis arcu.</p>", "mainImage": "images/img3.jpg", "additionalImages": [{"path": "images/img4.jpg", "caption": "Additional image 1"}] },
-    { "name": "Project 4", "tags": ["game"], "description": "<p>Curabitur interdum dui sit amet nunc hendrerit, vitae tristique justo laoreet. Aenean varius quam sit amet magna fermentum, sit amet ultricies nisi sodales. Sed dapibus et justo id ultricies. Proin et volutpat risus, a dignissim velit.</p>", "mainImage": "images/img4.jpg", "additionalImages": [{"path": "images/img5.jpg", "caption": "Additional image 1"}] },
-    { "name": "Project 5", "tags": ["illustration", "motion design"], "description": "<p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec gravida tortor id neque facilisis, et pharetra ligula mollis. Nam ornare ultricies tempor. Etiam vitae magna et nisi luctus posuere sit amet vitae libero.</p>", "mainImage": "images/img5.jpg", "additionalImages": [{"path": "images/img6.jpg", "caption": "Additional image 1"}, {"path": "images/img7.jpg", "caption": "Additional image 2"}] },
-    { "name": "Project 6", "tags": ["motion design"], "description": "<p>Quisque non lorem nec ante viverra vulputate. Aliquam nec efficitur mi. Donec ut velit ut libero tincidunt rhoncus eget at urna. Cras id felis nec metus posuere viverra. Etiam et orci nec purus eleifend tincidunt sit amet vitae nulla.</p>", "mainImage": "images/img6.jpg", "additionalImages": [{"path": "images/img7.jpg", "caption": "Additional image 1"}] },
-    { "name": "Project 7", "tags": ["animation", "motion design"], "description": "<p>Fusce cursus orci a nisi volutpat, a vestibulum lorem auctor. Integer egestas purus id vestibulum volutpat. Curabitur pretium, tortor vitae ullamcorper porttitor, orci nunc suscipit sapien, ut facilisis ipsum arcu id libero. Nulla vulputate, erat vel pretium ultricies, libero lorem facilisis leo, eget interdum neque nisi at nisi.</p>", "mainImage": "images/img7.jpg", "additionalImages": [{"path": "images/img8.jpg", "caption": "Additional image 1"}, {"path": "images/img9.jpg", "caption": "Additional image 2"}] },
-    { "name": "Project 8", "tags": ["game"], "description": "<p>Mauris dapibus volutpat sapien, at fermentum mi iaculis sed. Fusce nec turpis eu ipsum vulputate ullamcorper sit amet sit amet risus. Suspendisse in sem tincidunt, convallis nisl vel, sollicitudin justo. Sed tristique ex ante, a hendrerit turpis sollicitudin et.</p>", "mainImage": "images/img8.jpg", "additionalImages": [{"path": "images/img9.jpg", "caption": "Additional image 1"}] },
-    { "name": "Project 9", "tags": ["motion design"], "description": "<p>Curabitur placerat ligula sit amet urna fermentum, in pharetra sapien varius. Nam eget mauris ut orci hendrerit fringilla. Ut vitae elit eu turpis lacinia tincidunt et ac ipsum. Sed ut orci ut sapien elementum volutpat. Fusce nec diam non dolor viverra auctor.</p>", "mainImage": "images/img9.jpg", "additionalImages": [{"path": "images/img10.jpg", "caption": "Additional image 1"}] },
-    { "name": "Project 10", "tags": ["animation"], "description": "<p>Phasellus euismod, justo et pretium fermentum, est sapien vehicula nisi, non laoreet nunc purus non est. Integer gravida nunc est, ac tincidunt arcu euismod a. Donec non nisl a arcu dictum fermentum eu vel urna. Nulla porttitor, nisi et euismod bibendum, eros erat laoreet leo, a lacinia enim velit ut dui.</p>", "mainImage": "images/img10.jpg", "additionalImages": [{"path": "images/img11.jpg", "caption": "Additional image 1"}] },
-    { "name": "Project 11", "tags": ["illustration", "motion design"], "description": "<p>Maecenas viverra quam eget nunc dapibus, in sollicitudin risus lobortis. Aliquam id nisi id purus auctor pharetra sit amet sit amet dui. Cras euismod sapien vitae odio hendrerit convallis. Etiam lacinia sapien sit amet ligula lacinia tincidunt.</p>", "mainImage": "images/img11.jpg", "additionalImages": [{"path": "images/img12.jpg", "caption": "Additional image 1"}] },
-    { "name": "Project 12", "tags": ["motion design", "animation"], "description": "<p>Donec id augue a elit pretium scelerisque. Morbi volutpat orci et ex ullamcorper, a cursus ipsum cursus. Sed vestibulum vitae ligula sit amet dictum. Nulla posuere augue eget massa lobortis, at laoreet felis auctor. Ut non velit in libero luctus convallis.</p>", "mainImage": "images/img12.jpg", "additionalImages": [{"path": "images/img13.jpg", "caption": "Additional image 1"}, {"path": "images/img14.jpg", "caption": "Additional image 2"}] },
-    { "name": "Project 13", "tags": ["game", "motion design"], "description": "<p>Nullam pretium, turpis at tempor feugiat, orci sapien auctor augue, et viverra purus justo et magna. Donec ut elit id purus varius luctus. Vivamus gravida purus id velit pharetra, sed tristique sapien pellentesque.</p>", "mainImage": "images/img13.jpg", "additionalImages": [{"path": "images/img14.jpg", "caption": "Additional image 1"}] },
-    { "name": "Project 14", "tags": ["motion design"], "description": "<p>Phasellus vulputate purus ut nulla ultricies, vel sollicitudin justo tincidunt. Fusce non magna vitae risus tincidunt dapibus. Curabitur feugiat, ligula ut feugiat feugiat, elit enim tincidunt risus, vel vehicula metus metus vel erat.</p>", "mainImage": "images/img14.jpg", "additionalImages": [{"path": "images/img15.jpg", "caption": "Additional image 1"}, {"path": "images/img16.jpg", "caption": "Additional image 2"}] },
-    { "name": "Project 15", "tags": ["illustration", "game"], "description": "<p>Integer in orci ut arcu iaculis maximus. Suspendisse auctor, felis at luctus efficitur, risus purus sollicitudin est, nec placerat enim felis et purus. Donec consequat orci ac ipsum aliquet, ac tincidunt nulla euismod. Sed bibendum justo eget risus ullamcorper pretium.</p>", "mainImage": "images/img15.jpg", "additionalImages": [{"path": "images/img16.jpg", "caption": "Additional image 1"}] },
-    { "name": "Project 16", "tags": ["motion design", "animation"], "description": "<p>Suspendisse congue lectus in mollis vestibulum. Integer vulputate felis eget risus egestas, ac accumsan enim iaculis. Curabitur a nisl non metus venenatis mollis. Vivamus vel enim id neque condimentum interdum.</p>", "mainImage": "images/img16.jpg", "additionalImages": [{"path": "images/img17.jpg", "caption": "Additional image 1"}] },
-    { "name": "Project 17", "tags": ["animation"], "description": "<p>Nam euismod elit ac purus facilisis, ac eleifend tortor hendrerit. Curabitur sed libero nec eros suscipit consectetur. Phasellus eu dolor eget sapien vehicula pharetra. Nulla facilisi. Mauris vel nulla ac felis cursus tempus.</p>", "mainImage": "images/img17.jpg", "additionalImages": [{"path": "images/img18.jpg", "caption": "Additional image 1"}] },
-    { "name": "Project 18", "tags": ["motion design"], "description": "<p>Aliquam tristique felis nec velit mollis, at condimentum odio bibendum. Etiam aliquet purus ac dolor lacinia, in fermentum ipsum interdum. Ut ultricies est libero, non consectetur orci ullamcorper vel.</p>", "mainImage": "images/img18.jpg", "additionalImages": [{"path": "images/img19.jpg", "caption": "Additional image 1"}] },
-    { "name": "Project 19", "tags": ["illustration"], "description": "<p>Fusce tristique felis vel mauris elementum, ac varius tortor consectetur. Morbi ac nunc sit amet ligula luctus malesuada. Vestibulum sagittis erat vitae augue viverra, ac sollicitudin arcu porttitor.</p>", "mainImage": "images/img19.jpg", "additionalImages": [{"path": "images/img20.jpg", "caption": "Additional image 1"}] },
-    { "name": "Project 20", "tags": ["game", "animation"], "description": "<p>Curabitur malesuada arcu et risus posuere, a egestas lectus dictum. Aenean viverra ligula eget justo sollicitudin, at pretium lectus vestibulum. Sed nec quam a turpis auctor vehicula. Etiam maximus orci ac nisl maximus, sit amet pharetra ipsum sagittis.</p>", "mainImage": "images/img20.jpg", "additionalImages": [{"path": "images/img21.jpg", "caption": "Additional image 1"}] }
+    {
+      "name": "Project 1",
+      "tags": ["illustration"],
+      "description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur malesuada tristique mi, eget tincidunt arcu egestas eu. Sed ut suscipit ante, at ultricies nisi. Phasellus ac vestibulum velit, a tempor risus. Integer eget urna vitae libero malesuada iaculis eu a nulla.</p>",
+      "mainImage": "images/img1.jpg",
+      "additionalImages": [{"path": "images/img2.jpg", "caption": "Additional image 1"}]
+    },
+    {
+      "name": "Project 2",
+      "tags": ["motion design", "animation"],
+      "description": "<p>Donec vehicula sollicitudin arcu sit amet vulputate. Vivamus et nibh volutpat, convallis lorem eu, condimentum nisl. Sed fringilla ante eget lacus hendrerit, eget vehicula erat aliquet. Duis efficitur massa sed sapien lacinia viverra. Nullam sit amet erat felis.</p>",
+      "mainImage": "images/img3.jpg",
+      "additionalImages": [
+        { "path": "images/img4.jpg", "caption": "Another image" },
+        { "path": "images/img5.jpg", "caption": "One more image" }
+      ]
+    },
+    {
+      "name": "Project 3",
+      "tags": ["animation"],
+      "description": "<p>Morbi gravida ex a justo cursus, non volutpat justo fermentum. Curabitur ac mi nec libero consectetur venenatis. Proin vestibulum ultricies est. Nulla facilisi. In nec velit felis. Aenean viverra tortor a dui suscipit, et iaculis felis tincidunt.</p>",
+      "mainImage": "images/img6.jpg",
+      "additionalImages": [{"path": "images/img7.jpg", "caption": "Image 1"}]
+    },
+    {
+      "name": "Project 4",
+      "tags": ["motion design", "illustration"],
+      "description": "<p>Ut tincidunt sapien ut eros feugiat, non rutrum urna dapibus. Curabitur tincidunt turpis sed diam luctus, vitae elementum ex interdum. Proin posuere urna ac risus auctor, ac fringilla justo consequat. Integer hendrerit est in dui dapibus scelerisque.</p>",
+      "mainImage": "images/img8.jpg",
+      "additionalImages": [
+        { "path": "images/img9.jpg", "caption": "Extra image" }
+      ]
+    },
+    {
+      "name": "Project 5",
+      "tags": ["game"],
+      "description": "<p>Nullam sed malesuada eros. Nam euismod sapien vel turpis vestibulum, ac euismod felis scelerisque. Etiam ut arcu at libero egestas consequat. Cras sollicitudin malesuada ligula, sed fermentum elit auctor a. Phasellus euismod felis sed velit aliquet, eget viverra magna blandit.</p>",
+      "mainImage": "images/img10.jpg",
+      "additionalImages": [{"path": "images/img11.jpg", "caption": "Game image 1"}]
+    }
   ]
 }

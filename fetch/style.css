@@ -1,73 +1,51 @@
-/* style.css */
 body {
   font-family: Arial, sans-serif;
-  margin: 0;
   padding: 20px;
-  background-color: #f4f4f4;
 }
 
-h1 {
-  color: #333;
+#filters {
+  margin-bottom: 20px;
 }
 
-#tag-filters {
-  margin: 20px 0;
-}
-
-.tag {
-  display: inline-block;
-  background-color: #ddd;
-  color: #333;
-  padding: 5px 10px;
+.filter-btn {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 8px 15px;
   margin: 5px;
   cursor: pointer;
-  border-radius: 5px;
 }
 
-.tag.active {
+.filter-btn.active {
   background-color: #007bff;
   color: white;
 }
 
-.project {
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin: 10px 0;
+#project-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.grid {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.project-item {
+  padding: 15px;
+  border: 1px solid #ddd;
   background-color: #f9f9f9;
 }
 
-.project h3 {
-  color: #333;
+.project-title {
+  font-weight: bold;
 }
 
-.project p {
-  color: #777;
-}
-
-.project .tags {
-  margin-top: 10px;
-}
-
-.project .tags .tag {
-  background-color: #007bff;
-  color: white;
-  padding: 3px 8px;
-  margin: 3px;
-}
-
-label {
-  margin-top: 10px;
-}
-
-input[type="checkbox"] {
-  margin-top: 10px;
-}
-
-/* Grid layout for desktop */
-@media (min-width: 768px) {
-  #projects-list {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
+.project-description {
+  margin: 10px 0;
 }
