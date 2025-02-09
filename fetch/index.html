@@ -28,6 +28,8 @@
             overflow-x: auto;
             margin: 20px 0;
             gap: 10px;
+            width: 100%;
+            padding: 10px;
         }
 
         .filter-btn {
@@ -90,11 +92,12 @@
 
 <body>
     <header>
-        <h1>Project Listing <span style="font-size: 0.8em; color: #bbb;">(Version 1.0)</span></h1>
+        <h1>Project Listing <span style="font-size: 0.8em; color: #bbb;">(Version 1.1)</span></h1>
     </header>
 
     <div class="filters">
         <button id="showAllBtn" class="filter-btn active">Show All</button>
+        <button id="showFeaturedBtn" class="filter-btn">Featured</button>
         <div id="tags"></div>
     </div>
 
@@ -109,9 +112,11 @@
                 .then(data => {
                     const projects = data.projects;
                     let selectedTags = [];
+                    let showFeaturedOnly = false;
 
                     const projectList = document.getElementById('project-list');
                     const showAllBtn = document.getElementById('showAllBtn');
+                    const showFeaturedBtn = document.getElementById('showFeaturedBtn');
                     const tagsContainer = document.getElementById('tags');
                     const projectCount = document.getElementById('projectCount');
 
@@ -132,9 +137,19 @@
                     });
 
                     function displayProjects() {
-                        const filteredProjects = selectedTags.length === 0 ? projects : projects.filter(project => 
-                            selectedTags.some(tag => project.tags.includes(tag))
-                        );
+                        let filteredProjects = projects;
+
+                        if (showFeaturedOnly) {
+                            filteredProjects = filteredProjects.filter(project => project.featured);
+                        } else if (selectedTags.length > 0) {
+                            filteredProjects = filteredProjects.filter(project => 
+                                selectedTags.some(tag => project.tags.includes(tag))
+                            );
+                        }
+
+                        const featuredProjects = filteredProjects.filter(project => project.featured);
+                        const nonFeaturedProjects = filteredProjects.filter(project => !project.featured);
+                        filteredProjects = [...featuredProjects, ...nonFeaturedProjects];
 
                         projectList.innerHTML = filteredProjects.map(project => `
                             <div class="project-item">
@@ -158,18 +173,27 @@
                             selectedTags.push(tag);
                         }
 
+                        showFeaturedOnly = false;
                         displayProjects();
                     }
 
                     showAllBtn.addEventListener('click', function () {
                         selectedTags = [];
+                        showFeaturedOnly = false;
                         tagsContainer.querySelectorAll('.filter-btn').forEach(button => button.classList.remove('active'));
                         displayProjects();
                         updateShowAllButton();
                     });
 
+                    showFeaturedBtn.addEventListener('click', function () {
+                        selectedTags = [];
+                        showFeaturedOnly = true;
+                        tagsContainer.querySelectorAll('.filter-btn').forEach(button => button.classList.remove('active'));
+                        displayProjects();
+                    });
+
                     function updateShowAllButton() {
-                        showAllBtn.classList.toggle('active', selectedTags.length === 0);
+                        showAllBtn.classList.toggle('active', selectedTags.length === 0 && !showFeaturedOnly);
                     }
 
                     displayProjects();
