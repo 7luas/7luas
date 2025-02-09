@@ -11,16 +11,15 @@ fetch('data.json')
   .then(theData => {
     // Use the loaded JSON data
     console.log(theData);
-	data = theData;
+	data = JSON.parse(theData);
   })
   .catch(error => {
     // Handle any errors
     console.error('There was a problem with the fetch operation:', error);
   });
 
+
 alert(data["projects"][1]["name"]);
-
-
 
 
 if(0){
