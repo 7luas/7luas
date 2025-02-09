@@ -100,4 +100,25 @@ document.addEventListener('DOMContentLoaded', function() {
       function toggleMatchAllVisibility() {
         if (showAllBtn.classList.contains('active')) {
           if (matchAllCheckbox) {  // Only modify style if matchAllCheckbox exists
-            matchAllCheckbox.sty
+            matchAllCheckbox.style.display = 'none';
+          }
+        } else {
+          if (matchAllCheckbox) {  // Only modify style if matchAllCheckbox exists
+            matchAllCheckbox.style.display = 'inline-block';
+          }
+        }
+      }
+
+      // Only add event listener to the checkbox if it's visible
+      if (matchAllCheckbox) {
+        matchAllCheckbox.addEventListener('change', function() {
+          isMatchAll = this.checked;
+          displayProjects();
+        });
+      }
+
+      // Initial display with all projects visible
+      displayProjects();
+      toggleMatchAllVisibility();
+    });
+});
