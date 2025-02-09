@@ -23,6 +23,9 @@ header small {
 
 .filters {
   margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .filter-btn {
@@ -41,11 +44,6 @@ header small {
 
 #showAllBtn {
   font-weight: bold;
-}
-
-#matchAllLabel {
-  display: inline-block;
-  margin-left: 10px;
 }
 
 .project-count {

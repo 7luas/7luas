@@ -8,8 +8,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
       const projectList = document.getElementById('project-list');
       const showAllBtn = document.getElementById('showAllBtn');
-      const matchAllCheckbox = document.getElementById('matchAll');
-      const matchAllLabel = document.getElementById('matchAllLabel');
       const tagsContainer = document.getElementById('tags');
       const projectCount = document.getElementById('projectCount');
 
@@ -18,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       // Dynamically generate the filter buttons based on the tags in the JSON
       tags.forEach(tag => {
-        const button = document.createElement('button');
+        const button = document.createElement('div');
         button.classList.add('filter-btn');
         button.dataset.tag = tag;
         button.textContent = tag;
@@ -66,13 +64,6 @@ document.addEventListener('DOMContentLoaded', function() {
         tagsContainer.querySelectorAll('.filter-btn').forEach(button => button.classList.remove('active'));
         displayProjects();
         updateShowAllButton();
-        matchAllCheckbox.checked = false;  // Uncheck the "Match All" checkbox when "Show All" is selected
-      });
-
-      // Event listener for Match All checkbox
-      matchAllCheckbox.addEventListener('change', function() {
-        isMatchAll = this.checked;
-        displayProjects();
       });
 
       // Update Show All button state
@@ -90,17 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
 
-      // Control the visibility of the Match All checkbox
-      function updateMatchAllVisibility() {
-        if (showAllBtn.classList.contains('active')) {
-          matchAllLabel.style.display = 'none'; // Hide Match All checkbox and label when Show All is selected
-        } else {
-          matchAllLabel.style.display = 'inline-block'; // Show Match All checkbox and label when Show All is not selected
-        }
-      }
-
       // Initial display with all projects visible
       displayProjects();
-      updateMatchAllVisibility();
     });
 });
