@@ -2,6 +2,7 @@
 
 let allProjects = [];
 let filteredProjects = [];
+let andFilter = false;
 
 // Fetch the data from the JSON file
 fetch('data.json')
@@ -52,6 +53,7 @@ function toggleTagFilter(tag) {
     filteredProjects = [...allProjects];
   }
 
+  updateShowAllButtonState();
   renderProjects(filteredProjects);
 }
 
@@ -63,7 +65,20 @@ function filterByAll() {
   });
 
   filteredProjects = [...allProjects];
+  updateShowAllButtonState();
   renderProjects(filteredProjects);
+}
+
+// Update the Show All button state
+function updateShowAllButtonState() {
+  const showAllButton = document.getElementById('show-all');
+  const anyTagsActive = isAnyTagActive();
+
+  if (anyTagsActive) {
+    showAllButton.classList.remove('active');
+  } else {
+    showAllButton.classList.add('active');
+  }
 }
 
 // Check if any tag is active
@@ -75,6 +90,31 @@ function isAnyTagActive() {
 function isTagActive(tag) {
   const tagButton = [...document.querySelectorAll('.tag')].find(button => button.textContent === tag);
   return tagButton && tagButton.classList.contains('active');
+}
+
+// Toggle the AND filter
+function toggleAndFilter() {
+  andFilter = document.getElementById('and-filter').checked;
+  applyFilters();
+}
+
+// Apply filters with or without AND operation
+function applyFilters() {
+  const selectedTags = [...document.querySelectorAll('.tag.active')].map(button => button.textContent);
+
+  if (selectedTags.length === 0) {
+    filteredProjects = [...allProjects];
+  } else {
+    filteredProjects = allProjects.filter(project => {
+      if (andFilter) {
+        return selectedTags.every(tag => project.tags.includes(tag));
+      } else {
+        return project.tags.some(tag => selectedTags.includes(tag));
+      }
+    });
+  }
+
+  renderProjects(filteredProjects);
 }
 
 // Render the filtered projects

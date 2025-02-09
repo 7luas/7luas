@@ -55,6 +55,14 @@ h1 {
   margin: 3px;
 }
 
+label {
+  margin-top: 10px;
+}
+
+input[type="checkbox"] {
+  margin-top: 10px;
+}
+
 /* Grid layout for desktop */
 @media (min-width: 768px) {
   #projects-list {

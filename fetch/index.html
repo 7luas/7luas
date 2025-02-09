@@ -3,19 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Projects</title>
+  <title>Project Listing</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <h1>Project Gallery</h1>
 
-  <h1>Project List</h1>
-  
-  <!-- Filter Tags -->
+  <!-- Tag Filters -->
   <div id="tag-filters">
+    <!-- Show All Button -->
     <div class="tag" id="show-all" onclick="filterByAll()">Show All</div>
-    <!-- Tags will be dynamically added here -->
   </div>
 
+  <!-- Filter options for AND operation -->
+  <label for="and-filter">Match all selected tags (AND)</label>
+  <input type="checkbox" id="and-filter" onchange="toggleAndFilter()">
+
+  <!-- Projects List -->
   <div id="projects-list"></div>
 
   <script src="app.js"></script>
