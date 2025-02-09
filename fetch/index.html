@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Filter</title>
-    <!-- Inline CSS for styling -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,8 +23,12 @@
         .filters {
             display: flex;
             justify-content: center;
+            align-items: center;
+            flex-wrap: nowrap;
+            overflow-x: auto;
             margin: 20px 0;
-            flex-wrap: wrap;
+            padding: 10px;
+            white-space: nowrap;
         }
 
         .filter-btn {
@@ -35,6 +38,7 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            flex-shrink: 0;
         }
 
         .filter-btn.active {
@@ -77,21 +81,10 @@
             font-weight: bold;
         }
 
-        /* Make sure filters stay on one line */
-        .filters div {
-            margin: 0 5px;
-        }
-
-        /* Responsive design for mobile */
         @media (max-width: 768px) {
             #project-list {
                 grid-template-columns: 1fr;
             }
-        }
-
-        .match-all {
-            display: inline-block;
-            margin-left: 15px;
         }
     </style>
 </head>
@@ -104,35 +97,27 @@
     <div class="filters">
         <button id="showAllBtn" class="filter-btn active">Show All</button>
         <div id="tags"></div>
-        <div class="match-all">
-            <input type="checkbox" id="matchAllCheckbox"> Match All Tags
-        </div>
     </div>
 
     <div class="project-count" id="projectCount">0 projects match your selection</div>
 
     <div id="project-list"></div>
 
-    <!-- Inline JavaScript for functionality -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            fetch('data.json') // Fetch the JSON file
+            fetch('data.json')
                 .then(response => response.json())
                 .then(data => {
                     const projects = data.projects;
                     let selectedTags = [];
-                    let isMatchAll = false;
 
                     const projectList = document.getElementById('project-list');
                     const showAllBtn = document.getElementById('showAllBtn');
                     const tagsContainer = document.getElementById('tags');
                     const projectCount = document.getElementById('projectCount');
-                    const matchAllCheckbox = document.getElementById('matchAllCheckbox'); // This might be null if hidden
 
-                    // Extract all unique tags from the data
                     const tags = [...new Set(projects.flatMap(project => project.tags))];
 
-                    // Dynamically generate the filter buttons based on the tags in the JSON
                     tags.forEach(tag => {
                         const button = document.createElement('div');
                         button.classList.add('filter-btn');
@@ -140,7 +125,6 @@
                         button.textContent = tag;
                         tagsContainer.appendChild(button);
 
-                        // Add event listener to toggle tag selection
                         button.addEventListener('click', function () {
                             toggleTag(tag);
                             this.classList.toggle('active');
@@ -148,19 +132,11 @@
                         });
                     });
 
-                    // Show projects
                     function displayProjects() {
-                        // First, separate the featured projects
                         const featuredProjects = projects.filter(project => project.tags.includes('featured') &&
-                            (selectedTags.length === 0 || selectedTags.every(tag => project.tags.includes(tag)))
-                        );
-
-                        // Then, filter the non-featured projects
+                            (selectedTags.length === 0 || selectedTags.every(tag => project.tags.includes(tag))));
                         const nonFeaturedProjects = projects.filter(project => !project.tags.includes('featured') &&
-                            (selectedTags.length === 0 || selectedTags.every(tag => project.tags.includes(tag)))
-                        );
-
-                        // Combine featured first, then non-featured
+                            (selectedTags.length === 0 || selectedTags.every(tag => project.tags.includes(tag))));
                         const filteredProjects = [...featuredProjects, ...nonFeaturedProjects];
 
                         projectList.innerHTML = filteredProjects.map(project => `
@@ -174,10 +150,8 @@
                         projectCount.textContent = `${filteredProjects.length} project${filteredProjects.length !== 1 ? 's' : ''} match your selection`;
                     }
 
-                    // Toggle selected tag
                     function toggleTag(tag) {
                         if (showAllBtn.classList.contains('active')) {
-                            // Reset the tags when Show All is active
                             selectedTags = [];
                         }
 
@@ -190,53 +164,22 @@
                         displayProjects();
                     }
 
-                    // Event listener for Show All button
                     showAllBtn.addEventListener('click', function () {
-                        selectedTags = [];  // Reset tags when Show All is clicked
+                        selectedTags = [];
                         tagsContainer.querySelectorAll('.filter-btn').forEach(button => button.classList.remove('active'));
                         displayProjects();
                         updateShowAllButton();
                     });
 
-                    // Update Show All button state
                     function updateShowAllButton() {
                         if (selectedTags.length === 0) {
                             showAllBtn.classList.add('active');
                         } else {
                             showAllBtn.classList.remove('active');
                         }
-
-                        // If all tags are selected, Show All should be active and all other tags unselected
-                        if (selectedTags.length === tags.length) {
-                            showAllBtn.classList.add('active');
-                            tagsContainer.querySelectorAll('.filter-btn').forEach(button => button.classList.remove('active'));
-                        }
                     }
 
-                    // Initialize the Match All checkbox visibility
-                    function toggleMatchAllVisibility() {
-                        if (showAllBtn.classList.contains('active')) {
-                            if (matchAllCheckbox) {  // Only modify style if matchAllCheckbox exists
-                                matchAllCheckbox.style.display = 'none';
-                            }
-                        } else {
-                            if (matchAllCheckbox) {  // Only modify style if matchAllCheckbox exists
-                                matchAllCheckbox.style.display = 'inline-block';
-                            }
-                        }
-                    }
-
-                    // Only add event listener to the checkbox if it's visible
-                    if (matchAllCheckbox) {
-                        matchAllCheckbox.addEventListener('change', function () {
-                            isMatchAll = this.checked;
-                            displayProjects();
-                        });
-                    }
-
-                    // Initial display with all projects visible
                     displayProjects();
-                    toggleMatchAllVisibility();
                 });
         });
     </script>
