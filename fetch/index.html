@@ -25,8 +25,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      flex-wrap: nowrap;
-      overflow-x: auto;
+      flex-wrap: wrap; /* allow wrapping */
       margin: 20px 0;
       gap: 10px;
       padding: 10px;
@@ -102,7 +101,7 @@
 </head>
 <body>
   <header>
-    <h1>Project Listing <span style="font-size: 0.8em; color: #bbb;">(Version 1.5)</span></h1>
+    <h1>Project Listing <span style="font-size: 0.8em; color: #bbb;">(Version 1.6)</span></h1>
   </header>
 
   <div class="filters">
@@ -114,6 +113,10 @@
   <div class="project-count" id="projectCount">0 projects match your selection</div>
 
   <div id="project-list"></div>
+
+  <footer style="text-align: center; padding: 10px; background-color: #eee;">
+    Dummy footer text. © 2025
+  </footer>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
