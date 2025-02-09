@@ -33,10 +33,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
       // Show projects
       function displayProjects() {
-        const filteredProjects = projects.filter(project => {
-          const hasTags = selectedTags.every(tag => project.tags.includes(tag));
-          return selectedTags.length === 0 || (isMatchAll ? hasTags : project.tags.some(tag => selectedTags.includes(tag)));
-        });
+        // First, separate the featured projects
+        const featuredProjects = projects.filter(project => project.tags.includes('featured') && 
+          (selectedTags.length === 0 || selectedTags.every(tag => project.tags.includes(tag)))
+        );
+
+        // Then, filter the non-featured projects
+        const nonFeaturedProjects = projects.filter(project => !project.tags.includes('featured') && 
+          (selectedTags.length === 0 || selectedTags.every(tag => project.tags.includes(tag)))
+        );
+
+        // Combine featured first, then non-featured
+        const filteredProjects = [...featuredProjects, ...nonFeaturedProjects];
 
         projectList.innerHTML = filteredProjects.map(project => `
           <div class="project-item">
@@ -92,25 +100,4 @@ document.addEventListener('DOMContentLoaded', function() {
       function toggleMatchAllVisibility() {
         if (showAllBtn.classList.contains('active')) {
           if (matchAllCheckbox) {  // Only modify style if matchAllCheckbox exists
-            matchAllCheckbox.style.display = 'none';
-          }
-        } else {
-          if (matchAllCheckbox) {  // Only modify style if matchAllCheckbox exists
-            matchAllCheckbox.style.display = 'inline-block';
-          }
-        }
-      }
-
-      // Only add event listener to the checkbox if it's visible
-      if (matchAllCheckbox) {
-        matchAllCheckbox.addEventListener('change', function() {
-          isMatchAll = this.checked;
-          displayProjects();
-        });
-      }
-
-      // Initial display with all projects visible
-      displayProjects();
-      toggleMatchAllVisibility();
-    });
-});
+            matchAllCheckbox.sty
