@@ -1,36 +1,22 @@
-var data;
+fetch('data.json')  // Fetch the JSON file
+  .then(response => response.json())  // Parse the JSON data
+  .then(data => {
+    const projects = data.projects;  // Access the "projects" array
 
-fetch('data.json')
-  .then(response => {
-    // Check if the request was successful
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.json(); // Parse the JSON data
-  })
-  .then(theData => {
-    // Use the loaded JSON data
-    console.log(theData);
-	data = JSON.parse(theData);
+    projects.forEach(project => {
+      const projectElement = document.createElement('div');
+      projectElement.classList.add('project');  // Add the 'project' class
+
+      // Add content to the project element
+      projectElement.innerHTML = `
+        <h3>${project.name}</h3>
+        <p>Tags: ${project.tags}</p>
+      `;
+
+      // Append the project element to the body or another container
+      document.body.appendChild(projectElement);
+    });
   })
   .catch(error => {
-    // Handle any errors
-    console.error('There was a problem with the fetch operation:', error);
+    console.error('Error fetching data:', error);
   });
-
-
-alert(data["projects"][1]["name"]);
-
-
-if(0){
-getText("text1.txt","demo1");
-getText("text2.txt","demo2");
-getText("text3.txt","demo3");
-}
-
-async function getText(file,id) {
-  let x = await fetch(file);
-  let y = await x.text();
-  alert(y);
-  document.getElementById(id).innerHTML = y;
-}
