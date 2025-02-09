@@ -49,3 +49,14 @@ h1 {
   max-width: 300px;
   height: auto;
 }
+
+.project .tags {
+  margin-top: 10px;
+}
+
+.project .tags .tag {
+  background-color: #007bff;
+  color: white;
+  padding: 3px 8px;
+  margin: 3px;
+}

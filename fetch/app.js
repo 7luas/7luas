@@ -55,6 +55,17 @@ function toggleTagFilter(tag) {
   renderProjects(filteredProjects);
 }
 
+// Show all projects
+function filterByAll() {
+  const tagButtons = document.querySelectorAll('.tag');
+  tagButtons.forEach(button => {
+    button.classList.remove('active');
+  });
+
+  filteredProjects = [...allProjects];
+  renderProjects(filteredProjects);
+}
+
 // Check if any tag is active
 function isAnyTagActive() {
   return document.querySelectorAll('.tag.active').length > 0;
@@ -80,13 +91,8 @@ function renderProjects(projects) {
       <img src="${project.mainImage}" alt="${project.name}" />
       <h3>${project.name}</h3>
       ${project.description}
-      <div class="additional-images">
-        ${project.additionalImages.map(img => `
-          <div>
-            <img src="${img.path}" alt="${img.caption}" />
-            ${img.caption}
-          </div>
-        `).join('')}
+      <div class="tags">
+        ${project.tags.map(tag => `<div class="tag">${tag}</div>`).join('')}
       </div>
     `;
 
