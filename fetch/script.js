@@ -1,4 +1,4 @@
-alert("G");
+var data;
 
 fetch('data.json')
   .then(response => {
@@ -8,14 +8,17 @@ fetch('data.json')
     }
     return response.json(); // Parse the JSON data
   })
-  .then(data => {
+  .then(theData => {
     // Use the loaded JSON data
-    console.log(data);
+    console.log(theData);
+	data = theData;
   })
   .catch(error => {
     // Handle any errors
     console.error('There was a problem with the fetch operation:', error);
   });
+
+alert(data);
 
 if(0){
 getText("text1.txt","demo1");
