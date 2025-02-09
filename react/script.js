@@ -1,11 +1,7 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var Hello = React.createClass({
- render: function () {
- return <div>Hello {this.props.name}</div>;
- }
-});
-ReactDOM.render(
- <Hello name="World" />,
- document.getElementById('react-container')
-);
+// app.js
+
+// Create a React element
+const element = React.createElement('h1', null, 'Hello, world from app.js!');
+
+// Render the React element to the DOM
+ReactDOM.render(element, document.getElementById('root'));
