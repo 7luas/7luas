@@ -1,13 +1,20 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>My React Project</title>
-<script src="https://unpkg.com/react@15.3.1/dist/react.js"></script> 
-<script src="https://unpkg.com/react-dom@15.3.1/dist/react-dom.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My React App</title>
+  <!-- Include React and ReactDOM from CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
 </head>
 <body>
-<div id="react-container">
-</div>
-<script src="script.js"></script>
+  <div id="root"></div>
+
+  <script>
+    // Your React code
+    const element = React.createElement('h1', null, 'Hello, world!');
+    ReactDOM.render(element, document.getElementById('root'));
+  </script>
 </body>
 </html>
