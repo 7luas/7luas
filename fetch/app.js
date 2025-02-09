@@ -91,9 +91,13 @@ document.addEventListener('DOMContentLoaded', function() {
       // Initialize the Match All checkbox visibility
       function toggleMatchAllVisibility() {
         if (showAllBtn.classList.contains('active')) {
-          matchAllCheckbox.style.display = 'none';
+          if (matchAllCheckbox) {  // Only modify style if matchAllCheckbox exists
+            matchAllCheckbox.style.display = 'none';
+          }
         } else {
-          matchAllCheckbox.style.display = 'inline-block';
+          if (matchAllCheckbox) {  // Only modify style if matchAllCheckbox exists
+            matchAllCheckbox.style.display = 'inline-block';
+          }
         }
       }
 
