@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const projectList = document.getElementById('project-list');
       const showAllBtn = document.getElementById('showAllBtn');
       const matchAllCheckbox = document.getElementById('matchAll');
+      const matchAllLabel = document.getElementById('matchAllLabel');
       const tagsContainer = document.getElementById('tags');
       const projectCount = document.getElementById('projectCount');
 
@@ -92,9 +93,9 @@ document.addEventListener('DOMContentLoaded', function() {
       // Control the visibility of the Match All checkbox
       function updateMatchAllVisibility() {
         if (showAllBtn.classList.contains('active')) {
-          matchAllCheckbox.style.display = 'none'; // Hide Match All checkbox when Show All is selected
+          matchAllLabel.style.display = 'none'; // Hide Match All checkbox and label when Show All is selected
         } else {
-          matchAllCheckbox.style.display = 'inline-block'; // Show Match All checkbox when Show All is not selected
+          matchAllLabel.style.display = 'inline-block'; // Show Match All checkbox and label when Show All is not selected
         }
       }
 
