@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <div class="project-item">
             <h2 class="project-title">${project.name} <span>(${project.additionalImages.length} images)</span></h2>
             <p class="project-description">${project.description}</p>
+            <p class="project-tags">${project.tags.join(', ')}</p>
           </div>
         `).join('');
 
@@ -64,6 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
         tagsContainer.querySelectorAll('.filter-btn').forEach(button => button.classList.remove('active'));
         displayProjects();
         updateShowAllButton();
+        matchAllCheckbox.checked = false;  // Uncheck the "Match All" checkbox when "Show All" is selected
       });
 
       // Event listener for Match All checkbox
