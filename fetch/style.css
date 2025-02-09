@@ -10,6 +10,17 @@ body {
   padding-top: 20px;
 }
 
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header small {
+  font-size: 0.9em;
+  color: #666;
+}
+
 .filters {
   margin-bottom: 20px;
 }
