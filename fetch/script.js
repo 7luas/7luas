@@ -18,7 +18,7 @@ fetch('data.json')
     console.error('There was a problem with the fetch operation:', error);
   });
 
-alert(data["projects"][1].name);
+alert(data["projects"][1].["name"]);
 
 
 if(0){
