@@ -1,9 +1,185 @@
-// data.json
-
 {
   "projects": [
-    { "name": "John", "tags": "Blue" },
-    { "name": "Anna", "tags": "Red" },
-    { "name": "Peter", "tags": "Green" }
+    {
+      "name": "Project 1",
+      "tags": ["Blue", "Art", "Design"],
+      "description": "<p>This is a short description of Project 1.</p>",
+      "mainImage": "images/project1_main.jpg",
+      "additionalImages": [
+        { "path": "images/project1_1.jpg", "caption": "<p>Additional image 1</p>" },
+        { "path": "images/project1_2.jpg", "caption": "<p>Additional image 2</p>" }
+      ]
+    },
+    {
+      "name": "Project 2",
+      "tags": ["Red", "Photography", "Nature"],
+      "description": "<p>This is a short description of Project 2.</p>",
+      "mainImage": "images/project2_main.jpg",
+      "additionalImages": [
+        { "path": "images/project2_1.jpg", "caption": "<p>Additional image 1</p>" }
+      ]
+    },
+    {
+      "name": "Project 3",
+      "tags": ["Green", "Architecture"],
+      "description": "<p>This is a short description of Project 3.</p>",
+      "mainImage": "images/project3_main.jpg",
+      "additionalImages": [
+        { "path": "images/project3_1.jpg", "caption": "<p>Additional image 1</p>" }
+      ]
+    },
+    {
+      "name": "Project 4",
+      "tags": ["Blue", "Design", "Art"],
+      "description": "<p>This is a short description of Project 4.</p>",
+      "mainImage": "images/project4_main.jpg",
+      "additionalImages": [
+        { "path": "images/project4_1.jpg", "caption": "<p>Additional image 1</p>" }
+      ]
+    },
+    {
+      "name": "Project 5",
+      "tags": ["Photography", "Nature"],
+      "description": "<p>This is a short description of Project 5.</p>",
+      "mainImage": "images/project5_main.jpg",
+      "additionalImages": [
+        { "path": "images/project5_1.jpg", "caption": "<p>Additional image 1</p>" }
+      ]
+    },
+    {
+      "name": "Project 6",
+      "tags": ["Green", "Design"],
+      "description": "<p>This is a short description of Project 6.</p>",
+      "mainImage": "images/project6_main.jpg",
+      "additionalImages": [
+        { "path": "images/project6_1.jpg", "caption": "<p>Additional image 1</p>" }
+      ]
+    },
+    {
+      "name": "Project 7",
+      "tags": ["Red", "Photography", "Art"],
+      "description": "<p>This is a short description of Project 7.</p>",
+      "mainImage": "images/project7_main.jpg",
+      "additionalImages": [
+        { "path": "images/project7_1.jpg", "caption": "<p>Additional image 1</p>" }
+      ]
+    },
+    {
+      "name": "Project 8",
+      "tags": ["Blue", "Architecture"],
+      "description": "<p>This is a short description of Project 8.</p>",
+      "mainImage": "images/project8_main.jpg",
+      "additionalImages": [
+        { "path": "images/project8_1.jpg", "caption": "<p>Additional image 1</p>" }
+      ]
+    },
+    {
+      "name": "Project 9",
+      "tags": ["Green", "Nature"],
+      "description": "<p>This is a short description of Project 9.</p>",
+      "mainImage": "images/project9_main.jpg",
+      "additionalImages": [
+        { "path": "images/project9_1.jpg", "caption": "<p>Additional image 1</p>" }
+      ]
+    },
+    {
+      "name": "Project 10",
+      "tags": ["Photography", "Art"],
+      "description": "<p>This is a short description of Project 10.</p>",
+      "mainImage": "images/project10_main.jpg",
+      "additionalImages": [
+        { "path": "images/project10_1.jpg", "caption": "<p>Additional image 1</p>" }
+      ]
+    },
+    {
+      "name": "Project 11",
+      "tags": ["Red", "Art", "Design"],
+      "description": "<p>This is a short description of Project 11.</p>",
+      "mainImage": "images/project11_main.jpg",
+      "additionalImages": [
+        { "path": "images/project11_1.jpg", "caption": "<p>Additional image 1</p>" }
+      ]
+    },
+    {
+      "name": "Project 12",
+      "tags": ["Blue", "Nature", "Photography"],
+      "description": "<p>This is a short description of Project 12.</p>",
+      "mainImage": "images/project12_main.jpg",
+      "additionalImages": [
+        { "path": "images/project12_1.jpg", "caption": "<p>Additional image 1</p>" }
+      ]
+    },
+    {
+      "name": "Project 13",
+      "tags": ["Green", "Photography", "Art"],
+      "description": "<p>This is a short description of Project 13.</p>",
+      "mainImage": "images/project13_main.jpg",
+      "additionalImages": [
+        { "path": "images/project13_1.jpg", "caption": "<p>Additional image 1</p>" }
+      ]
+    },
+    {
+      "name": "Project 14",
+      "tags": ["Red", "Design"],
+      "description": "<p>This is a short description of Project 14.</p>",
+      "mainImage": "images/project14_main.jpg",
+      "additionalImages": [
+        { "path": "images/project14_1.jpg", "caption": "<p>Additional image 1</p>" }
+      ]
+    },
+    {
+      "name": "Project 15",
+      "tags": ["Blue", "Architecture", "Nature"],
+      "description": "<p>This is a short description of Project 15.</p>",
+      "mainImage": "images/project15_main.jpg",
+      "additionalImages": [
+        { "path": "images/project15_1.jpg", "caption": "<p>Additional image 1</p>" }
+      ]
+    },
+    {
+      "name": "Project 16",
+      "tags": ["Green", "Art", "Design"],
+      "description": "<p>This is a short description of Project 16.</p>",
+      "mainImage": "images/project16_main.jpg",
+      "additionalImages": [
+        { "path": "images/project16_1.jpg", "caption": "<p>Additional image 1</p>" }
+      ]
+    },
+    {
+      "name": "Project 17",
+      "tags": ["Red", "Nature", "Art"],
+      "description": "<p>This is a short description of Project 17.</p>",
+      "mainImage": "images/project17_main.jpg",
+      "additionalImages": [
+        { "path": "images/project17_1.jpg", "caption": "<p>Additional image 1</p>" }
+      ]
+    },
+    {
+      "name": "Project 18",
+      "tags": ["Photography", "Green"],
+      "description": "<p>This is a short description of Project 18.</p>",
+      "mainImage": "images/project18_main.jpg",
+      "additionalImages": [
+        { "path": "images/project18_1.jpg", "caption": "<p>Additional image 1</p>" }
+      ]
+    },
+    {
+      "name": "Project 19",
+      "tags": ["Photography", "Art", "Green"],
+      "description": "<p>This is a short description of Project 19.</p>",
+      "mainImage": "images/project19_main.jpg",
+      "additionalImages": [
+        { "path": "images/project19_1.jpg", "caption": "<p>Additional image 1</p>" }
+      ]
+    },
+    {
+      "name": "Project 20",
+      "tags": ["Design", "Red"],
+      "description": "<p>This is a short description of Project 20.</p>",
+      "mainImage": "images/project20_main.jpg",
+      "additionalImages": [
+        { "path": "images/project20_1.jpg", "caption": "<p>Additional image 1</p>" }
+      ]
+    }
   ]
 }
