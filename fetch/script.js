@@ -11,7 +11,7 @@ fetch('data.json')
   .then(theData => {
     // Use the loaded JSON data
     console.log(theData);
-	data = JSON.parse(theData);
+	data = theData;
   })
   .catch(error => {
     // Handle any errors
