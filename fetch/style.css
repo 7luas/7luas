@@ -44,12 +44,6 @@ h1 {
   color: #777;
 }
 
-.project img {
-  width: 100%;
-  max-width: 300px;
-  height: auto;
-}
-
 .project .tags {
   margin-top: 10px;
 }
@@ -59,4 +53,13 @@ h1 {
   color: white;
   padding: 3px 8px;
   margin: 3px;
+}
+
+/* Grid layout for desktop */
+@media (min-width: 768px) {
+  #projects-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
 }

@@ -86,9 +86,8 @@ function renderProjects(projects) {
     const projectElement = document.createElement('div');
     projectElement.classList.add('project');
 
-    // Add the main image and project details
+    // Add the project details and tags
     projectElement.innerHTML = `
-      <img src="${project.mainImage}" alt="${project.name}" />
       <h3>${project.name}</h3>
       ${project.description}
       <div class="tags">
