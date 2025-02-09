@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Filter</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header with version number -->
+    <header>
+      <h1>Project Filter</h1>
+      <small>Version 1.4</small> <!-- Increment the version here -->
+    </header>
+
+    <!-- Tag filters and Show All button -->
+    <div class="filters">
+      <div id="showAllBtn" class="filter-btn active">Show All</div>
+      <div id="tags" class="tags-container"></div>
+    </div>
+
+    <!-- Display count of matched projects -->
+    <div id="projectCount" class="project-count"></div>
+
+    <!-- Projects list -->
+    <div id="project-list" class="projects"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
