@@ -10,7 +10,6 @@
       margin: 0;
       padding: 0;
       background-color: #f4f4f9;
-      font-size: 80%; /* Reduced by 20% */
     }
     header {
       background-color: #333;
@@ -90,7 +89,7 @@
 </head>
 <body>
   <header>
-    <h1>Project Listing <span style="font-size: 0.8em; color: #bbb;">(Version 1.3)</span></h1>
+    <h1>Project Listing <span style="font-size: 0.8em; color: #bbb;">(Version 1.4)</span></h1>
   </header>
 
   <div class="filters">
@@ -153,7 +152,7 @@
             filteredProjects = [...featuredProjects, ...nonFeaturedProjects];
 
             projectList.innerHTML = filteredProjects.map(project => `
-              <div class="project-item">
+              <div class="project-item" ${project.featured ? 'style="background-color: #ffe0b2;"' : ''}>
                 <h2 class="project-title">${project.name} <span>(${project.additionalImages.length} images)</span></h2>
                 <p class="project-description">${project.description}</p>
                 <p class="project-tags">${project.tags.join(', ')}</p>
@@ -179,7 +178,9 @@
             } else {
               showAllBtn.classList.remove('active');
             }
+            // Deactivate the Featured button if any tag is selected
             showFeaturedOnly = false;
+            showFeaturedBtn.classList.remove('active');
             displayProjects();
           }
 
