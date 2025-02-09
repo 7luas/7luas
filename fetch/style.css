@@ -77,6 +77,15 @@ header small {
   font-style: italic;
 }
 
+#tags {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#tags .filter-btn {
+  margin-right: 10px;
+}
+
 @media(min-width: 768px) {
   .projects {
     grid-template-columns: 1fr 1fr;

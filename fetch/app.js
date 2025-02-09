@@ -60,6 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       // Event listener for Show All button
       showAllBtn.addEventListener('click', function() {
+        // Clear selected tags when "Show All" is clicked
         selectedTags = [];
         tagsContainer.querySelectorAll('.filter-btn').forEach(button => button.classList.remove('active'));
         displayProjects();
@@ -81,7 +82,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
 
+      // Initialize the Match All checkbox visibility
+      function toggleMatchAllVisibility() {
+        const matchAllCheckbox = document.getElementById('matchAllCheckbox');
+        if (showAllBtn.classList.contains('active')) {
+          matchAllCheckbox.style.display = 'none';
+        } else {
+          matchAllCheckbox.style.display = 'inline-block';
+        }
+      }
+
       // Initial display with all projects visible
       displayProjects();
+      toggleMatchAllVisibility();
     });
 });
