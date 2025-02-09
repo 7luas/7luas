@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const showAllBtn = document.getElementById('showAllBtn');
       const tagsContainer = document.getElementById('tags');
       const projectCount = document.getElementById('projectCount');
+      const matchAllCheckbox = document.getElementById('matchAllCheckbox');
 
       // Extract all unique tags from the data
       const tags = [...new Set(projects.flatMap(project => project.tags))];
@@ -50,18 +51,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
       // Toggle selected tag
       function toggleTag(tag) {
+        if (showAllBtn.classList.contains('active')) {
+          // Reset the tags when Show All is active
+          selectedTags = [];
+        }
+
         if (selectedTags.includes(tag)) {
           selectedTags = selectedTags.filter(t => t !== tag);
         } else {
           selectedTags.push(tag);
         }
+
         displayProjects();
       }
 
       // Event listener for Show All button
       showAllBtn.addEventListener('click', function() {
-        // Clear selected tags when "Show All" is clicked
-        selectedTags = [];
+        selectedTags = [];  // Reset tags when Show All is clicked
         tagsContainer.querySelectorAll('.filter-btn').forEach(button => button.classList.remove('active'));
         displayProjects();
         updateShowAllButton();
@@ -84,13 +90,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
       // Initialize the Match All checkbox visibility
       function toggleMatchAllVisibility() {
-        const matchAllCheckbox = document.getElementById('matchAllCheckbox');
         if (showAllBtn.classList.contains('active')) {
           matchAllCheckbox.style.display = 'none';
         } else {
           matchAllCheckbox.style.display = 'inline-block';
         }
       }
+
+      // Event listener for Match All checkbox
+      matchAllCheckbox.addEventListener('change', function() {
+        isMatchAll = this.checked;
+        displayProjects();
+      });
 
       // Initial display with all projects visible
       displayProjects();
