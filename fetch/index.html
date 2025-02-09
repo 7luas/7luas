@@ -27,18 +27,16 @@
             flex-wrap: nowrap;
             overflow-x: auto;
             margin: 20px 0;
-            padding: 10px;
-            white-space: nowrap;
+            gap: 10px;
         }
 
         .filter-btn {
             background-color: #eee;
             padding: 8px 16px;
-            margin: 5px;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            flex-shrink: 0;
+            white-space: nowrap;
         }
 
         .filter-btn.active {
@@ -79,6 +77,7 @@
             text-align: center;
             margin-top: 20px;
             font-weight: bold;
+            padding-bottom: 10px;
         }
 
         @media (max-width: 768px) {
@@ -133,11 +132,9 @@
                     });
 
                     function displayProjects() {
-                        const featuredProjects = projects.filter(project => project.tags.includes('featured') &&
-                            (selectedTags.length === 0 || selectedTags.every(tag => project.tags.includes(tag))));
-                        const nonFeaturedProjects = projects.filter(project => !project.tags.includes('featured') &&
-                            (selectedTags.length === 0 || selectedTags.every(tag => project.tags.includes(tag))));
-                        const filteredProjects = [...featuredProjects, ...nonFeaturedProjects];
+                        const filteredProjects = selectedTags.length === 0 ? projects : projects.filter(project => 
+                            selectedTags.some(tag => project.tags.includes(tag))
+                        );
 
                         projectList.innerHTML = filteredProjects.map(project => `
                             <div class="project-item">
@@ -172,11 +169,7 @@
                     });
 
                     function updateShowAllButton() {
-                        if (selectedTags.length === 0) {
-                            showAllBtn.classList.add('active');
-                        } else {
-                            showAllBtn.classList.remove('active');
-                        }
+                        showAllBtn.classList.toggle('active', selectedTags.length === 0);
                     }
 
                     displayProjects();
