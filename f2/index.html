@@ -3,175 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+    <title>Portfolio (v1.03)</title>
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
-        h1 {
-            margin: 20px 0;
-        }
-        .filters {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-        .filters button {
-            padding: 5px 10px;
-            border: 1px solid #000;
-            cursor: pointer;
-            transition: background 0.3s;
-            font-size: 12px;
-            text-transform: uppercase;
-        }
-        .filters button.active {
-            background: blue;
-            color: white;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 10px;
-            padding: 10px;
-        }
-        .project {
-            position: relative;
-            border: 2px solid transparent;
-        }
-        .project.featured {
-            border-color: red;
-        }
-        .project:hover .overlay {
-            opacity: 1;
-        }
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 10px;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        footer {
-            margin-top: 20px;
-            padding: 10px;
-            color: grey;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+        body { font-family: 'Roboto', sans-serif; margin: 0; padding: 0; text-align: center; }
+        .filters { margin: 10px 0; }
+        .filters button { margin: 2px; padding: 5px 10px; font-size: 12px; text-transform: uppercase; cursor: pointer; border: none; background: #ccc; }
+        .filters button.active { background: blue; color: white; }
+        .count { font-size: 14px; margin-bottom: 10px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 0; }
+        .tile { position: relative; overflow: hidden; border: 2px solid transparent; }
+        .tile img, .tile video { width: 100%; height: auto; display: block; }
+        .tile.featured { border-color: red; }
+        .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); color: white; opacity: 0; transition: opacity 0.3s; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .tile:hover .overlay { opacity: 1; }
+        .footer { margin-top: 20px; font-size: 12px; color: gray; }
     </style>
 </head>
 <body>
-    <h1>Lorem ipsum lorem ipsum ipsum lorem ipsum ipsum lorem ipsum (v1.02)</h1>
-    
+    <p>Lorem ipsum lorem ipsum ipsum lorem ipsum ipsum lorem ipsum.</p>
     <div class="filters">
-        <button id="show-all" class="active">All</button>
-        <button id="featured">Featured</button>
+        <button id="all" class="active">ALL</button>
+        <button id="featured">FEATURED</button>
+        <div id="tag-buttons" style="display:inline;"></div>
     </div>
-    
-    <p id="project-count"></p>
-    
+    <p class="count" id="project-count"></p>
     <div class="grid" id="project-grid"></div>
-    
-    <footer>© 2025 Portfolio</footer>
-    
+    <p class="footer">&copy; 2025 Portfolio</p>
     <script>
         let projects = [];
-        let selectedTags = new Set();
-        let showFeatured = false;
+        let activeFilters = { all: true, featured: false, tags: [] };
 
         async function loadProjects() {
             const response = await fetch('data.json');
             const data = await response.json();
             projects = data.projects;
-            renderProjects();
             generateTagButtons();
-        }
-
-        function renderProjects() {
-            const grid = document.getElementById('project-grid');
-            grid.innerHTML = '';
-            let filteredProjects = projects.filter(p => 
-                (showFeatured ? p.featured : true) && 
-                (selectedTags.size === 0 || p.tags.some(tag => selectedTags.has(tag)))
-            );
-            
-            document.getElementById('project-count').innerText = `${filteredProjects.length} projects shown`;
-            
-            filteredProjects.sort((a, b) => b.featured - a.featured);
-            
-            filteredProjects.forEach(project => {
-                const projectDiv = document.createElement('div');
-                projectDiv.className = `project ${project.featured ? 'featured' : ''}`;
-                
-                let media;
-                if (project.mainMedia.endsWith('.mp4')) {
-                    media = `<video src="media/${project.mainMedia}" autoplay loop muted></video>`;
-                } else {
-                    media = `<img src="media/${project.mainMedia}" alt="${project.name}">`;
-                }
-                
-                projectDiv.innerHTML = `
-                    ${media}
-                    <div class="overlay">
-                        <strong>${project.name} (${project.projectContent.length})</strong>
-                        <p>${project.description}</p>
-                        <small>${project.tags.join(', ')}</small>
-                    </div>
-                `;
-                grid.appendChild(projectDiv);
-            });
+            renderProjects();
         }
 
         function generateTagButtons() {
-            const tagSet = new Set();
-            projects.forEach(p => p.tags.forEach(t => tagSet.add(t)));
-            const filters = document.querySelector('.filters');
-            
-            tagSet.forEach(tag => {
-                const btn = document.createElement('button');
-                btn.innerText = tag;
-                btn.addEventListener('click', () => toggleTag(tag, btn));
-                filters.appendChild(btn);
+            const tags = [...new Set(projects.flatMap(p => p.tags))];
+            const container = document.getElementById('tag-buttons');
+            container.innerHTML = '';
+            tags.forEach(tag => {
+                const button = document.createElement('button');
+                button.textContent = tag.toUpperCase();
+                button.onclick = () => toggleTagFilter(tag);
+                container.appendChild(button);
             });
         }
 
-        function toggleTag(tag, button) {
-            if (selectedTags.has(tag)) {
-                selectedTags.delete(tag);
-                button.classList.remove('active');
-            } else {
-                selectedTags.add(tag);
-                button.classList.add('active');
-            }
-            document.getElementById('show-all').classList.remove('active');
-            document.getElementById('featured').classList.remove('active');
+        function toggleTagFilter(tag) {
+            activeFilters.all = false;
+            activeFilters.featured = false;
+            const index = activeFilters.tags.indexOf(tag);
+            if (index === -1) activeFilters.tags.push(tag);
+            else activeFilters.tags.splice(index, 1);
+            updateButtonStates();
             renderProjects();
         }
 
-        document.getElementById('show-all').addEventListener('click', function() {
-            selectedTags.clear();
-            showFeatured = false;
-            document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
+        function updateButtonStates() {
+            document.getElementById('all').classList.toggle('active', activeFilters.all);
+            document.getElementById('featured').classList.toggle('active', activeFilters.featured);
+            document.querySelectorAll('#tag-buttons button').forEach(btn => {
+                btn.classList.toggle('active', activeFilters.tags.includes(btn.textContent.toLowerCase()));
+            });
+        }
+
+        function renderProjects() {
+            const container = document.getElementById('project-grid');
+            container.innerHTML = '';
+            let filtered = projects.filter(p =>
+                activeFilters.all ||
+                (activeFilters.featured && p.featured) ||
+                activeFilters.tags.some(tag => p.tags.includes(tag))
+            );
+            filtered.sort((a, b) => b.featured - a.featured);
+            filtered.forEach(proj => {
+                const tile = document.createElement('div');
+                tile.classList.add('tile');
+                if (proj.featured) tile.classList.add('featured');
+                const media = proj.mainMedia.endsWith('.mp4')
+                    ? `<video src="media/${proj.mainMedia}" autoplay loop muted></video>`
+                    : `<img src="media/${proj.mainMedia}" alt="${proj.name}">`;
+                const overlay = `
+                    <div class="overlay">
+                        <p>${proj.name} (${proj.projectContent.length})</p>
+                        <p>${proj.description}</p>
+                        <p>${proj.tags.map(t => `<span>${t}</span>`).join(' ')}</p>
+                    </div>`;
+                tile.innerHTML = media + overlay;
+                container.appendChild(tile);
+            });
+            document.getElementById('project-count').textContent = `${filtered.length} projects shown`;
+        }
+
+        document.getElementById('all').onclick = () => {
+            activeFilters = { all: true, featured: false, tags: [] };
+            updateButtonStates();
             renderProjects();
-        });
+        };
         
-        document.getElementById('featured').addEventListener('click', function() {
-            showFeatured = true;
-            selectedTags.clear();
-            document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
+        document.getElementById('featured').onclick = () => {
+            activeFilters = { all: false, featured: true, tags: [] };
+            updateButtonStates();
             renderProjects();
-        });
-        
+        };
+
         loadProjects();
     </script>
 </body>
