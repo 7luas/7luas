@@ -25,7 +25,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      flex-wrap: wrap; /* allow wrapping */
+      flex-wrap: wrap; /* allow wrapping if needed */
       margin: 20px 0;
       gap: 10px;
       padding: 10px;
@@ -66,15 +66,53 @@
       gap: 20px;
       padding: 0 20px;
     }
+    /* Three columns when window is wider than 1600px */
+    @media (min-width: 1600px) {
+      #project-list {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+    }
     .project-item {
-      background-color: #fff;
-      padding: 15px;
+      position: relative;
       border-radius: 8px;
+      overflow: hidden;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
-    /* Light orange background for featured projects */
+    /* Light orange background for featured projects (applied to overlay) */
     .project-item.featured {
-      background-color: #ffe0b2;
+      /* You can optionally have a border or indicator; the overlay will have its own background */
+    }
+    .image-container {
+      position: relative;
+      overflow: hidden;
+    }
+    .image-container img {
+      display: block;
+      width: 100%;
+      transition: filter 0.3s;
+    }
+    .image-container:hover img {
+      filter: brightness(85%);
+    }
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.6);
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      text-align: center;
+    }
+    .image-container:hover .overlay {
+      opacity: 1;
     }
     .project-title {
       font-size: 18px;
@@ -86,7 +124,7 @@
     }
     .project-tags {
       font-style: italic;
-      color: #555;
+      color: #fff;
     }
     /* Mobile adjustments */
     @media (max-width: 768px) {
@@ -97,11 +135,16 @@
         font-size: 1rem; /* Ensure buttons match the description paragraphs */
       }
     }
+    footer {
+      text-align: center;
+      padding: 10px;
+      background-color: #eee;
+    }
   </style>
 </head>
 <body>
   <header>
-    <h1>Project Listing <span style="font-size: 0.8em; color: #bbb;">(Version 1.6)</span></h1>
+    <h1>Project Listing <span style="font-size: 0.8em; color: #bbb;">(Version 1.7)</span></h1>
   </header>
 
   <div class="filters">
@@ -114,7 +157,7 @@
 
   <div id="project-list"></div>
 
-  <footer style="text-align: center; padding: 10px; background-color: #eee;">
+  <footer>
     Dummy footer text. © 2025
   </footer>
 
@@ -169,9 +212,14 @@
 
             projectList.innerHTML = filteredProjects.map(project => `
               <div class="project-item ${project.featured ? 'featured' : ''}">
-                <h2 class="project-title">${project.name} <span>(${project.additionalImages.length} images)</span></h2>
-                <p class="project-description">${project.description}</p>
-                <p class="project-tags">${project.tags.join(', ')}</p>
+                <div class="image-container">
+                  <img src="${project.mainImage}" alt="${project.name}">
+                  <div class="overlay">
+                    <h2 class="project-title">${project.name} <span>(${project.additionalImages.length} images)</span></h2>
+                    <p class="project-description">${project.description}</p>
+                    <p class="project-tags">${project.tags.join(', ')}</p>
+                  </div>
+                </div>
               </div>
             `).join('');
 
