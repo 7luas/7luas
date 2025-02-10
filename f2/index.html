@@ -5,15 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio v1.05</title>
     <style>
-        /* Embedded CSS (can be externalized easily) */
+        /* Embedded CSS (can be moved to external file) */
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
         body {
             font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
             text-align: center;
+            background: #fff;
         }
-        header {
+        h1 {
             font-size: 1.5em;
             margin: 20px 0;
         }
@@ -24,29 +25,39 @@
             margin-bottom: 10px;
         }
         .filters button {
-            font-size: 12px;
+            font-size: 0.8em;
             text-transform: uppercase;
+            padding: 5px 10px;
+            border: none;
+            background: #ddd;
             cursor: pointer;
+            transition: 0.3s;
         }
-        .project-grid {
+        .filters button:hover {
+            background: #bbb;
+        }
+        .project-count {
+            font-size: 0.8em;
+            margin-bottom: 10px;
+        }
+        .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(800px, 1fr));
             gap: 0;
             justify-content: center;
         }
-        .project-tile {
+        .tile {
             position: relative;
-            aspect-ratio: 16 / 9;
             overflow: hidden;
-            border: 2px solid transparent;
+            aspect-ratio: 16/9;
         }
-        .project-tile.featured {
-            border-color: red;
-        }
-        .project-tile img, .project-tile video {
+        .tile img, .tile video {
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+        .tile.featured {
+            outline: 3px solid red;
         }
         .overlay {
             position: absolute;
@@ -56,118 +67,124 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.15);
             color: white;
+            padding: 10px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            justify-content: flex-end;
             opacity: 0;
             transition: opacity 0.3s;
-            padding: 10px;
-            box-sizing: border-box;
         }
-        .project-tile:hover .overlay {
+        .tile:hover .overlay {
             opacity: 1;
         }
+        .tags span {
+            background: rgba(255, 255, 255, 0.7);
+            color: black;
+            padding: 2px 5px;
+            margin: 2px;
+            font-size: 0.7em;
+            border-radius: 5px;
+        }
         footer {
-            font-size: 12px;
-            color: grey;
-            margin: 20px 0;
+            font-size: 0.8em;
+            color: gray;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <header>Lorem ipsum lorem ipsum ipsum lorem ipsum ipsum lorem ipsum.</header>
-    
+    <h1>Lorem ipsum lorem ipsum ipsum lorem ipsum ipsum lorem ipsum. v1.05</h1>
     <div class="filters">
-        <button id="filter-all">All</button>
-        <button id="filter-featured">Featured</button>
+        <button id="all">All</button>
+        <button id="featured">Featured</button>
         <div id="tag-buttons"></div>
     </div>
-    
-    <p id="project-count"></p>
-    
-    <div class="project-grid" id="project-grid"></div>
-    
+    <div class="project-count">Showing <span id="count">0</span> projects</div>
+    <div class="grid" id="project-grid"></div>
     <footer>&copy; 2025 Portfolio</footer>
-    
     <script>
-        // Embedded JavaScript (can be externalized easily)
-        let projects = [];
-        fetch('data.json')
-            .then(response => response.json())
-            .then(data => {
-                projects = data.projects;
-                renderProjects();
-                setupFilters();
-            });
-        
-        function renderProjects(filter = 'all', activeTags = []) {
-            const grid = document.getElementById('project-grid');
-            grid.innerHTML = '';
+        // Embedded JavaScript (can be moved to external file)
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch("data.json")
+                .then(response => response.json())
+                .then(data => initializePortfolio(data.projects));
+        });
+
+        function initializePortfolio(projects) {
+            const grid = document.getElementById("project-grid");
+            const count = document.getElementById("count");
+            const allButton = document.getElementById("all");
+            const featuredButton = document.getElementById("featured");
+            const tagButtonsContainer = document.getElementById("tag-buttons");
             
-            let filteredProjects = projects.filter(p => {
-                if (filter === 'featured' && !p.featured) return false;
-                if (activeTags.length > 0) return p.tags.some(tag => activeTags.includes(tag));
-                return true;
-            });
+            let activeFilters = new Set();
+            let filteredProjects = projects;
             
-            document.getElementById('project-count').innerText = `${filteredProjects.length} projects shown`;
+            function renderProjects() {
+                grid.innerHTML = "";
+                let sortedProjects = filteredProjects.sort((a, b) => b.featured - a.featured);
+                sortedProjects.forEach(project => {
+                    let mediaElement = project.mainMedia.endsWith(".mp4")
+                        ? `<video src='media/${project.mainMedia}' autoplay loop muted></video>`
+                        : `<img src='media/${project.mainMedia}' alt='${project.name}'>`;
+                    
+                    let tile = document.createElement("div");
+                    tile.classList.add("tile");
+                    if (project.featured) tile.classList.add("featured");
+                    
+                    let overlay = document.createElement("div");
+                    overlay.classList.add("overlay");
+                    overlay.innerHTML = `
+                        <strong>${project.name} (${project.projectContent.length})</strong>
+                        <p>${project.description}</p>
+                        <div class='tags'>${project.tags.map(tag => `<span>${tag}</span>`).join(" ")}</div>
+                    `;
+                    
+                    tile.innerHTML = mediaElement;
+                    tile.appendChild(overlay);
+                    grid.appendChild(tile);
+                });
+                count.textContent = filteredProjects.length;
+            }
             
-            filteredProjects.sort((a, b) => b.featured - a.featured);
-            
-            filteredProjects.forEach(proj => {
-                const tile = document.createElement('div');
-                tile.classList.add('project-tile');
-                if (proj.featured) tile.classList.add('featured');
-                
-                let mediaElement;
-                if (proj.mainMedia.endsWith('.mp4')) {
-                    mediaElement = document.createElement('video');
-                    mediaElement.src = `media/${proj.mainMedia}`;
-                    mediaElement.autoplay = true;
-                    mediaElement.loop = true;
-                    mediaElement.muted = true;
+            function filterProjects() {
+                if (activeFilters.has("featured")) {
+                    filteredProjects = projects.filter(p => p.featured);
+                } else if (activeFilters.size > 0) {
+                    filteredProjects = projects.filter(p => p.tags.some(tag => activeFilters.has(tag)));
                 } else {
-                    mediaElement = document.createElement('img');
-                    mediaElement.src = `media/${proj.mainMedia}`;
+                    filteredProjects = projects;
                 }
-                
-                const overlay = document.createElement('div');
-                overlay.classList.add('overlay');
-                overlay.innerHTML = `<strong>${proj.name} (${proj.projectContent.length})</strong><br>${proj.description}`;
-                
-                tile.appendChild(mediaElement);
-                tile.appendChild(overlay);
-                grid.appendChild(tile);
-            });
-        }
-        
-        function setupFilters() {
-            const tags = new Set();
-            projects.forEach(p => p.tags.forEach(tag => tags.add(tag)));
-            const tagContainer = document.getElementById('tag-buttons');
-            const tagButtons = {};
+                renderProjects();
+            }
             
-            tags.forEach(tag => {
-                const btn = document.createElement('button');
-                btn.innerText = tag;
-                btn.onclick = () => {
-                    tagButtons[tag].classList.toggle('active');
-                    const activeTags = Object.keys(tagButtons).filter(t => tagButtons[t].classList.contains('active'));
-                    renderProjects('all', activeTags);
-                };
-                tagButtons[tag] = btn;
-                tagContainer.appendChild(btn);
+            allButton.addEventListener("click", () => {
+                activeFilters.clear();
+                filterProjects();
             });
             
-            document.getElementById('filter-all').onclick = () => {
-                Object.values(tagButtons).forEach(btn => btn.classList.remove('active'));
-                renderProjects('all');
-            };
-            document.getElementById('filter-featured').onclick = () => {
-                Object.values(tagButtons).forEach(btn => btn.classList.remove('active'));
-                renderProjects('featured');
-            };
+            featuredButton.addEventListener("click", () => {
+                activeFilters.clear();
+                activeFilters.add("featured");
+                filterProjects();
+            });
+            
+            let allTags = new Set(projects.flatMap(p => p.tags));
+            allTags.forEach(tag => {
+                let btn = document.createElement("button");
+                btn.textContent = tag;
+                btn.addEventListener("click", () => {
+                    if (activeFilters.has(tag)) {
+                        activeFilters.delete(tag);
+                    } else {
+                        activeFilters.add(tag);
+                    }
+                    filterProjects();
+                });
+                tagButtonsContainer.appendChild(btn);
+            });
+            
+            renderProjects();
         }
     </script>
 </body>
