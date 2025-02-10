@@ -1,161 +1,118 @@
-Please forget everything we talked previously in this chat, then read below.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio (v1.03)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+        body { font-family: 'Roboto', sans-serif; margin: 0; padding: 0; text-align: center; }
+        .filters { margin: 10px 0; }
+        .filters button { margin: 2px; padding: 5px 10px; font-size: 12px; text-transform: uppercase; cursor: pointer; border: none; background: #ccc; }
+        .filters button.active { background: blue; color: white; }
+        .count { font-size: 14px; margin-bottom: 10px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 0; }
+        .tile { position: relative; overflow: hidden; border: 2px solid transparent; }
+        .tile img, .tile video { width: 100%; height: auto; display: block; }
+        .tile.featured { border-color: red; }
+        .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); color: white; opacity: 0; transition: opacity 0.3s; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .tile:hover .overlay { opacity: 1; }
+        .footer { margin-top: 20px; font-size: 12px; color: gray; }
+    </style>
+</head>
+<body>
+    <p>Lorem ipsum lorem ipsum ipsum lorem ipsum ipsum lorem ipsum.</p>
+    <div class="filters">
+        <button id="all" class="active">ALL</button>
+        <button id="featured">FEATURED</button>
+        <div id="tag-buttons" style="display:inline;"></div>
+    </div>
+    <p class="count" id="project-count"></p>
+    <div class="grid" id="project-grid"></div>
+    <p class="footer">&copy; 2025 Portfolio</p>
+    <script>
+        let projects = [];
+        let activeFilters = { all: true, featured: false, tags: [] };
 
-Hello, can you help me create a portfolio?
+        async function loadProjects() {
+            const response = await fetch('data.json');
+            const data = await response.json();
+            projects = data.projects;
+            generateTagButtons();
+            renderProjects();
+        }
 
-Please create it as a single html page, with css and javascript code integrated within it (but make it so that I can easily make the css and javascript as external files later).
+        function generateTagButtons() {
+            const tags = [...new Set(projects.flatMap(p => p.tags))];
+            const container = document.getElementById('tag-buttons');
+            container.innerHTML = '';
+            tags.forEach(tag => {
+                const button = document.createElement('button');
+                button.textContent = tag.toUpperCase();
+                button.onclick = () => toggleTagFilter(tag);
+                container.appendChild(button);
+            });
+        }
 
-I already have a json with information about all projects that should appear in the portfolio (I'll share it at the bottom of this message). 
+        function toggleTagFilter(tag) {
+            activeFilters.all = false;
+            activeFilters.featured = false;
+            const index = activeFilters.tags.indexOf(tag);
+            if (index === -1) activeFilters.tags.push(tag);
+            else activeFilters.tags.splice(index, 1);
+            updateButtonStates();
+            renderProjects();
+        }
 
-Note that when I refer to "media", it can be either an image (jpg or gif) or a video (mp4). The json file refers to the file names for each media item. Media files will be stored within a folder called "media" in the same place as the html file.
+        function updateButtonStates() {
+            document.getElementById('all').classList.toggle('active', activeFilters.all);
+            document.getElementById('featured').classList.toggle('active', activeFilters.featured);
+            document.querySelectorAll('#tag-buttons button').forEach(btn => {
+                btn.classList.toggle('active', activeFilters.tags.includes(btn.textContent.toLowerCase()));
+            });
+        }
 
-Each project has:
-- Name
-- Short description (around 100 words long)
-- Main media
-- Project content (this is an array containing an arbitrary number of items, which can be either html text or media)
-- Tags (an array of tags)
-- Featured (a boolean value)
+        function renderProjects() {
+            const container = document.getElementById('project-grid');
+            container.innerHTML = '';
+            let filtered = projects.filter(p =>
+                activeFilters.all ||
+                (activeFilters.featured && p.featured) ||
+                activeFilters.tags.some(tag => p.tags.includes(tag))
+            );
+            filtered.sort((a, b) => b.featured - a.featured);
+            filtered.forEach(proj => {
+                const tile = document.createElement('div');
+                tile.classList.add('tile');
+                if (proj.featured) tile.classList.add('featured');
+                const media = proj.mainMedia.endsWith('.mp4')
+                    ? `<video src="media/${proj.mainMedia}" autoplay loop muted></video>`
+                    : `<img src="media/${proj.mainMedia}" alt="${proj.name}">`;
+                const overlay = `
+                    <div class="overlay">
+                        <p>${proj.name} (${proj.projectContent.length})</p>
+                        <p>${proj.description}</p>
+                        <p>${proj.tags.map(t => `<span>${t}</span>`).join(' ')}</p>
+                    </div>`;
+                tile.innerHTML = media + overlay;
+                container.appendChild(tile);
+            });
+            document.getElementById('project-count').textContent = `${filtered.length} projects shown`;
+        }
 
-Now I'll describe the page itself.
+        document.getElementById('all').onclick = () => {
+            activeFilters = { all: true, featured: false, tags: [] };
+            updateButtonStates();
+            renderProjects();
+        };
+        
+        document.getElementById('featured').onclick = () => {
+            activeFilters = { all: false, featured: true, tags: [] };
+            updateButtonStates();
+            renderProjects();
+        };
 
-The page title should be: "Portfolio (v1.03)"
-
-All text on the page should be using Roboto font, light weight, from Google fonts.
-
-At the top, there should be the following text, medium size, center aligned: "Lorem ipsum lorem ipsum ipsum lorem ipsum ipsum lorem ipsum."
-
-After that, there should be a single line of very small buttons, which will allow the user to filter the project list (I will describe the project list later).
-All buttons should be clickable. Buttons can be active or inactive, based on a series of rules, as described further below. Active buttons should show as blue.
-All buttons should have a visible hover effect (both when active and when inactive). Buttons should be small, and their labels should be in all caps, in small font.
-These are the buttons, and how they should behave: 
-1. "ALL": It is active by default. If the user clicks it when it is inactive, it should become active, and any other active button should become inactive. When it is active, all projects should be shown in the list. Clicking it when it is active should have no effect (except for some visual feedback).
-2. "FEATURED": It is inactive by default. If the user clicks it when it is inactive, it should become active, and any other active button should become inactive. When it is active, only featured projects should be shown.
-3. There should also be a series of buttons, one for each tag (i.e. the "tag buttons"): They should be inactive by default. For each, if the user clicks them when they are inactive, they should become active. For each, if the user clicks them when they are active, they should become inactive. All projects matching any of the currently active button tags should be shown.
-
-Additional behaviours related to the buttons:
-- If all the tag buttons are made active, the "ALL" button should become active, and all the individual tag buttons should become inactive.
-- If there is only one tag button active, and the user clicks it (making it inactive), the "ALL" button should become active.
-- If the "FEATURED" button is active, and the user clicks it (making it inactive), the "ALL" button should become active.
-- If the "ALL" button is active, and the user clicks on any other button, then the "ALL" button should become inactive.
-- If the "FEATURED" button is active, and the user clicks on any other button, then the "FEATURED" button should become inactive.
-
-Below the button line, there should be a very small text stating how many projects are currently being shown.
-
-Below that is the project list, which should show as a grid of media tiles (using the Main media for each project).
-The number of columns in the grid should not be affected by how many projects are being shown. It should have 3 columns on very wide displays, 2 columns on medium width displays (small screens, or a phone in landscape) and 1 column on narrow displays (like a phone on portrait mode). The grid should only have 4 columns or more if the display is extremely wide. 
-There should be no space, padding or margin between tiles. There should be no space, padding or margin between the images and the left side of the screen, or the right side of the screen. 
-All tiles should have the same size, which will vary based on how many columns the grid gas. Regardless, they should match the aspect ratio of the media (which is 16:9).
-Tiles should never overlap.
-
-If the project is featured, it should show on top (above projects that are not featured), and the tile should have a red outline.
-When a tile is hovered, an overlay should appear on top of it (making the image 15% darker) with information about the project.
-This is the information that should show on the tile:
-- Name
-- Number of media elements in the project content (this can show between brackets next to the name, with a font size smaller than the one used for the project name)
-- short description
-- tags (styled as pills)
-This information should be organized in such a way that it fits within the tile, with appropriate padding around it (use small font size).
-The overlay should go away when the tile is no longer hovered).
-
-FInally, add a subtle dummy footer at the very bottom, saying "© 2025 Portfolio", in grey small font (no background).
-
-Let me know if you need any clarifications before you proceed.
-
-This is the json file with the content to be used (it will be stored in the same place as the index file, and it will be named data.json):
-{
-  "projects": [
-    {
-      "name": "Project 1",
-      "tags": ["illustration"],
-      "description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur malesuada tristique mi, eget tincidunt arcu egestas eu. Sed ut suscipit ante, at ultricies nisi. Phasellus ac vestibulum velit, a tempor risus. Integer eget urna vitae libero malesuada iaculis eu a nulla.</p>",
-      "mainMedia": "video.mp4",
-      "projectContent": [{"path": "img2.gif", "caption": "Additional image 1"}],
-      "featured": false
-    },
-    {
-      "name": "Project 2",
-      "tags": ["motion design", "animation"],
-      "description": "<p>Donec vehicula sollicitudin arcu sit amet vulputate. Vivamus et nibh volutpat, convallis lorem eu, condimentum nisl. Sed fringilla ante eget lacus hendrerit, eget vehicula erat aliquet. Duis efficitur massa sed sapien lacinia viverra. Nullam sit amet erat felis.</p>",
-      "mainMedia": "image.gif",
-      "projectContent": [
-        { "path": "img4.gif", "caption": "Another image" },
-        { "path": "img5.gif", "caption": "One more image" }
-      ],
-      "featured": false
-    },
-    {
-      "name": "Project 3",
-      "tags": ["animation"],
-      "description": "<p>Morbi gravida ex a justo cursus, non volutpat justo fermentum. Curabitur ac mi nec libero consectetur venenatis. Proin vestibulum ultricies est. Nulla facilisi. In nec velit felis. Aenean viverra tortor a dui suscipit, et iaculis felis tincidunt.</p>",
-      "mainMedia": "image.gif",
-      "projectContent": [{"path": "img7.gif", "caption": "Image 1"}],
-      "featured": false
-    },
-    {
-      "name": "Project 4",
-      "tags": ["motion design", "illustration"],
-      "description": "<p>Ut tincidunt sapien ut eros feugiat, non rutrum urna dapibus. Curabitur tincidunt turpis sed diam luctus, vitae elementum ex interdum. Proin posuere urna ac risus auctor, ac fringilla justo consequat. Integer hendrerit est in dui dapibus scelerisque.</p>",
-      "mainMedia": "image.gif",
-      "projectContent": [
-        { "path": "img9.gif", "caption": "Extra image" }
-      ],
-      "featured": false
-    },
-    {
-      "name": "Project 5",
-      "tags": ["game"],
-      "description": "<p>Nullam sed malesuada eros. Nam euismod sapien vel turpis vestibulum, ac euismod felis scelerisque. Etiam ut arcu at libero egestas consequat. Cras sollicitudin malesuada ligula, sed fermentum elit auctor a. Phasellus euismod felis sed velit aliquet, eget viverra magna blandit.</p>",
-      "mainMedia": "image.gif",
-      "projectContent": [{"path": "img11.gif", "caption": "Game image 1"}],
-      "featured": false
-    },
-    {
-      "name": "Project 6",
-      "tags": ["motion design"],
-      "description": "<p>Fusce vestibulum, velit vel tincidunt tristique, purus eros pretium est, in tincidunt mi felis sit amet ipsum. Nulla ac vehicula velit. Nunc ac risus non libero volutpat tempor a vel enim. Donec iaculis convallis sapien, id maximus lectus faucibus at. Suspendisse potenti.</p>",
-      "mainMedia": "video.mp4",
-      "projectContent": [
-        { "path": "img13.gif", "caption": "Image 1" },
-        { "path": "img14.gif", "caption": "Image 2" }
-      ],
-      "featured": false
-    },
-    {
-      "name": "Project 7",
-      "tags": ["illustration", "animation"],
-      "description": "<p>Cras auctor, elit vel fermentum consectetur, leo libero laoreet risus, sit amet vulputate elit nunc at purus. Nam suscipit velit vitae ante rhoncus, sit amet tincidunt ipsum volutpat. Nam tristique felis a ante posuere, vitae auctor purus gravida.</p>",
-      "mainMedia": "image.gif",
-      "projectContent": [{"path": "img16.gif", "caption": "Image 1"}],
-      "featured": true
-    },
-    {
-      "name": "Project 8",
-      "tags": ["game"],
-      "description": "<p>Aenean scelerisque, ipsum ac rhoncus auctor, risus libero laoreet purus, at congue metus eros ut ante. Nunc iaculis metus sit amet tristique vestibulum. Sed aliquet dui non risus tempus, sit amet tincidunt erat malesuada.</p>",
-      "mainMedia": "image.gif",
-      "projectContent": [{"path": "img18.gif", "caption": "Image 1"}],
-      "featured": false
-    },
-    {
-      "name": "Project 9",
-      "tags": ["motion design", "illustration", "animation"],
-      "description": "<p>Vestibulum gravida enim vel orci aliquet malesuada. Cras pretium felis et sollicitudin scelerisque. Nunc vehicula vel velit eu ultricies. Curabitur ut ante vitae mi tincidunt placerat in ac libero. Nulla malesuada id libero vitae tempor.</p>",
-      "mainMedia": "image.gif",
-      "projectContent": [
-        { "path": "img20.gif", "caption": "Image 1" },
-        { "path": "img21.gif", "caption": "Image 2" },
-        { "path": "img22.gif", "caption": "Image 3" }
-      ],
-      "featured": true
-    },
-    {
-      "name": "Project 10",
-      "tags": ["illustration", "motion design"],
-      "description": "<p>Curabitur et gravida lorem. Nulla vitae turpis egestas, varius ligula id, placerat dui. Nam tincidunt quam nisi, sit amet condimentum odio fringilla a. Integer auctor sapien felis, ac faucibus purus hendrerit vitae. Duis et felis id arcu cursus interdum.</p>",
-      "mainMedia": "image.gif",
-      "projectContent": [{"path": "img24.gif", "caption": "Image 1"}],
-      "featured": false
-    }
-  ]
-}
-
+        loadProjects();
+    </script>
+</body>
+</html>
