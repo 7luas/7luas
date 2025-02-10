@@ -40,13 +40,28 @@
         }
         .projects {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
             margin-top: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         }
-        @media (min-width: 1200px) {
+        @media (min-width: 1800px) {
+            .projects {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        @media (min-width: 1200px) and (max-width: 1799px) {
             .projects {
                 grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        @media (min-width: 800px) and (max-width: 1199px) {
+            .projects {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 799px) {
+            .projects {
+                grid-template-columns: repeat(1, 1fr);
             }
         }
         .project {
@@ -82,16 +97,24 @@
         .project:hover img, .project:hover video {
             filter: brightness(85%);
         }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.8em;
+            color: #777;
+        }
     </style>
 </head>
 <body>
-    <div class="header">Portfolio - Version 1.8</div>
+    <div class="header">Portfolio - Version 1.9</div>
     <div class="controls">
         <button id="showAll">Show All</button>
         <button id="featuredBtn" class="featured-btn">Featured</button>
         <div id="tagButtons"></div>
     </div>
+    <div id="projectCount">Projects: 0</div>
     <div class="projects" id="projectsContainer"></div>
+    <div class="footer">&copy; 2025 Portfolio. All rights reserved.</div>
     <script>
         let projects = [];
         let activeTags = new Set();
@@ -156,25 +179,12 @@
                 return matchesTags && matchesFeatured;
             });
             
+            document.getElementById("projectCount").textContent = `Projects: ${filteredProjects.length}`;
+            
             filteredProjects.forEach(project => {
                 const div = document.createElement("div");
                 div.className = "project";
-                
-                let mediaElement;
-                if (project.mainMedia.endsWith(".mp4")) {
-                    mediaElement = `<video src="media/${project.mainMedia}" autoplay loop muted></video>`;
-                } else {
-                    mediaElement = `<img src="media/${project.mainMedia}" alt="${project.name}">`;
-                }
-                
-                div.innerHTML = `
-                    ${mediaElement}
-                    <div class="info">
-                        <h3>${project.name}</h3>
-                        ${project.description}
-                    </div>
-                `;
-                
+                div.innerHTML = `<img src="media/${project.mainMedia}" alt="${project.name}"><div class="info"><h3>${project.name}</h3>${project.description}</div>`;
                 container.appendChild(div);
             });
         }
